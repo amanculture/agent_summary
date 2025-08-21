@@ -1,0 +1,35 @@
+# Python & Django
+__pycache__/
+*.py[cod]
+*.log
+*.sqlite3
+*.pot
+*.pyc
+
+# Env files
+.env
+*.env
+
+# Virtual Environment
+myenv/
+env/
+venv/
+
+# VSCode
+.vscode/
+
+# Migrations (optional)
+**/migrations/
+!**/migrations/__init__.py
+
+# System files
+Thumbs.db
+.DS_Store
+
+# Extra Folder
+*logs/
+*Excel_File/
+*Send_File/
+
+
+

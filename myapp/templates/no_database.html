@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>502-server-down</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <title>
+        <%= title %>
+    </title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <div class='arlinacode'>
+        <header class='arlinacode__content'>
+            <img style="padding-top: 60px;" style="padding-bottom: 30px;"
+                src="https://hynjbv.stripocdn.email/content/guids/CABINET_3f2d85fdcd475b0014fd7b9bc618d0f7/images/6541628096429842.png"
+                width="501.69" height="308" />
+            <h1 class='arlinacode__title'>Error Found</h1>
+            <h2>Please Refresh the Page </h2>
+            <h2> OR </h2>
+            <h2>Try again Later</h2>
+        </header>
+
+        <div class='wave'></div>
+        <div class='wave wave2'></div>
+        <div class='wave wave3'></div>
+    </div>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #69B2FB;
+        }
+
+        a {
+            color: #0088fb;
+        }
+
+        .main-block,
+        .main-content {
+            width: 100%;
+            margin: 0 auto;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 16px
+        }
+
+        .main-block {
+            padding-bottom: 30px;
+            padding-top: 20px;
+            padding-left: 50px;
+            padding-right: 50px;
+            max-width: 1045px;
+            background-color: #fff;
+            box-shadow: 0 0 0 transparent, -1px 1px 5px 2px rgba(0, 0, 0, .1), 5px 0 5px -5px rgba(0, 0, 0, .2), 0 0 0 rgba(0, 0, 0, .1) inset;
+        }
+
+        @keyframes charge {
+            from {
+                transform: translateY(2rem);
+                opacity: 0
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1
+            }
+        }
+
+        @keyframes wave {
+            from {
+                transform: rotate(0deg)
+            }
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .arlinacode {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #74b9ff;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .arlinacode__content {
+            color: #fff;
+            font-weight: 300;
+            padding: 0 2rem;
+            width: 100%;
+            position: relative;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .arlinacode__content img {
+            max-width: 90%;
+            height: auto;
+            width: auto;
+            max-height: 40vh;
+        }
+
+        .arlinacode__subtitle,
+        .arlinacode__title {
+            margin: 10px 0;
+        }
+
+        .arlinacode__title {
+            font-size: 2.4rem;
+            font-weight: 700;
+            opacity: 0;
+            animation: charge .5s forwards;
+        }
+
+        .wave {
+            opacity: .6;
+            position: absolute;
+            bottom: 40%;
+            left: 50%;
+            width: 6000px;
+            height: 6000px;
+            background: #000;
+            margin-left: -3000px;
+            transform-origin: 50% 48%;
+            border-radius: 46%;
+            animation: wave 12s infinite linear;
+            pointer-events: none;
+        }
+
+        .wave2 {
+            animation: wave 28s infinite linear;
+            opacity: .3
+        }
+
+        .wave3 {
+            animation: wave 20s infinite linear;
+            opacity: .1
+        }
+
+        @media (min-width:768px) {
+            .arlinacode__title {
+                font-size: 3.4rem;
+                margin: 0 auto 20px auto
+            }
+        }
+
+        h2 {
+            margin: 5px 0;
+            font-size: 1.5rem;
+            font-weight: 400;
+        }
+    </style>
+</head>
+
+<body>
+</body>
+
+</html>

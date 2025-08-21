@@ -1,0 +1,87 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dash_styles.css' %}">
+
+    <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>  
+
+    
+    {% load plotly_dash %}
+
+    {{ plotly_header }}
+</head>
+<body>
+
+    <form method="GET" class="pkg-form">
+        <select class="pkg-title-select" name="selected_pkg_title" id="pkg-select" onchange="updateSelectedValues()">
+            <option value="">-- ALL Packages --</option>
+            {% for title, id in package_title_id %}
+                <option value="{{ title }}" data-id="{{ id }}"
+                    {% if title == selected_pkg_title %}selected{% endif %}>
+                    {{ title }} | {{ id }}
+                </option>
+            {% endfor %}
+        </select>
+    
+        <!-- Hidden input to store selected package ID -->
+        <input type="hidden" name="selected_pkg_id" id="selected_pkg_id">
+    
+        <button type="submit" class="pkg-submit-btn">Submit</button>
+    </form>
+
+    <div id="chart-container-1"></div> 
+
+    <br>
+
+    <div id="chart-container-2"></div>  
+
+    <br>
+
+    <div style="height: 500px; overflow: hidden;">
+    {% plotly_app name="DataTableApp" ratio=1.0 %}
+    </div>
+
+    <br>
+    
+    <div id="chart-container-3"></div>
+
+
+    {{ plotly_footer }}
+
+    <script>
+        var chartData = {{ chart_json_1 | safe }};
+        Plotly.newPlot('chart-container-1', chartData.data, chartData.layout);
+
+        var chartData = {{ chart_json_2 | safe }};
+        Plotly.newPlot('chart-container-2', chartData.data, chartData.layout);
+
+        var chartData = {{ chart_json_3 | safe }};
+        Plotly.newPlot('chart-container-3', chartData.data, chartData.layout);
+
+
+
+
+        function updateSelectedValues() {
+        var select = document.getElementById("pkg-select");
+        var selectedOption = select.options[select.selectedIndex];
+        
+        // ✅ Get values from dropdown
+        var selectedTitle = selectedOption.value;  // Package Title
+        var selectedId = selectedOption.getAttribute("data-id");  // Package ID
+
+        // ✅ Store values in hidden input fields
+        document.getElementById("selected_pkg_id").value = selectedId;
+        document.getElementById("selected_pkg_title_hidden").value = selectedTitle;
+    }
+
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,2698 @@
+
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    {% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Guest Details</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Modern Design Styles */
+        body {
+            font-family: "Poppins", sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+              /* background: royalblue; */
+            color: #000000;
+            padding: 18px 40px;
+            display: flex;
+            /* justify-content: space-between; */
+            gap: 300px;
+            align-items: center;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            /* box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); */
+            margin-bottom: 15px;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2em;
+            font-weight: 600;
+        }
+        
+        .header p {
+            margin: 8px 0 0;
+            font-weight: 300;
+            font-size: 1.1em;
+        }
+        
+        .header img {
+            height: 90px;
+            border-radius: 8px;
+        }
+
+        /* Info Card */
+        .info-card {
+            background: white;
+            /* margin: 15px auto; */
+            padding: 25px 10px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            max-width: 630px;
+            width: 100%;
+            margin-bottom: 3rem;
+        }
+        
+        .info-grid {
+            display: grid;
+            /* grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); */
+            gap: 10px;
+            margin-left: 40px;
+            justify-items: start;
+        }
+
+        
+        .info-grid p {
+            text-align: center;
+            margin: 0;
+            font-size: 1rem;
+            padding: 8px 0;
+        }
+        
+        .info-grid strong {
+            color: #009688;
+            font-weight: 600;
+        }
+
+        .info-card strong {
+            color: #009688;
+            font-weight: 600;
+        }
+
+
+        /* Modern Tabs */
+        .tabs {
+            display: flex;
+            gap: 25px;
+            margin: 0 auto;
+            max-width: 1100px;
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            background: #e0f2f1;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            color: black;
+            border: 2px solid transparent;
+        }
+        
+        .tab.selected {
+                background: royalblue;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 150, 136, 0.3);
+        }
+        
+        .tab:hover:not(.selected) {
+            background: #80cbc4;
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .tab:disabled {
+            background: #f5f5f5;
+            color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Modern Table Container */
+        .table-container {
+            max-width: 1300px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .table-responsive {
+            width: 100%;
+            /* overflow-x: auto; */
+        }
+        
+        .table-responsive table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+        
+        .table-responsive thead {
+            background: royalblue;
+            color: white;
+        }
+        
+        .table-responsive th {
+            padding: 18px 15px;
+            text-align: left;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+        }
+        
+        .table-responsive tbody tr {
+            border-bottom: 1px solid #eee;
+            transition: all 0.2s ease;
+        }
+        
+        .table-responsive tbody tr:hover {
+            background: #f8fffe;
+            transform: scale(1.001);
+        }
+        
+        .table-responsive td {
+            padding: 15px;
+            font-size: 0.9rem;
+            /* border: none; */
+            border: 0.1px solid #43383840;
+        }
+        
+        /* Form Controls */
+        select, input[type="text"], input[type="date"], input[type="time"] {
+            width: 80%;
+            padding: 10px; 
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        select:focus, input:focus {
+            border-color: #009688;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 150, 136, 0.1);
+        }
+        
+        input[type="checkbox"] {
+            transform: scale(1.3);
+            accent-color: #009688;
+        }
+
+        /* Modern Buttons */
+        button {
+            background: linear-gradient(135deg, #ff7043, #ff5722);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 112, 67, 0.3);
+        }
+        
+        button:hover {
+            background: linear-gradient(135deg, #ff5722, #e64a19);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 112, 67, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        #submitBtn {
+            background: linear-gradient(135deg, #4caf50, #388e3c);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+            display: block;
+            margin: 30px auto;
+            padding: 18px 40px;
+            font-size: 1.1rem;
+        }
+        
+        #submitBtn:hover {
+            background: linear-gradient(135deg, #388e3c, #2e7d32);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        /* Editable Cells */
+        .editable-cell {
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        
+        .editable-cell:hover {
+            background: #e8f5e8;
+            border-radius: 6px;
+        }
+        
+        .editable-cell:focus {
+            background: #fff;
+            outline: 2px solid #009688;
+            border-radius: 6px;
+        }
+
+        /* Switch Toggle */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+               background-color: royalblue;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px 40px;
+            margin: 15% auto;
+            width: 400px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin: 0 8px;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #009688, #00796b);
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, #00796b, #004d40);
+            transform: translateY(-2px);
+        }
+
+        .btn-cancel {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .btn-cancel:hover {
+            background: #f1bec7;
+        }
+
+        /* Package Details */
+        #package-details {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        #package-details table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #package-details thead th {
+            background: linear-gradient(135deg, #ff7043, #ff5722);
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            font-size: 1.2rem;
+            padding: 20px;
+        }
+
+        #package-details tbody th {
+            background: linear-gradient(135deg, #009688, #00796b);
+            color: white;
+            font-weight: 600;
+            padding: 15px 20px;
+        }
+
+        #package-details tbody td {
+            background: #f8fffe;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0f2f1;
+        }
+
+        /* Upload Section */
+        .ticket-upload-wrapper {
+            --tu-primary-color: #009688;
+            --tu-secondary-color: #00796b;
+            --tu-accent-color: #4db6ac;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .ticket-upload-container {
+            display: flex;
+            /* justify-content: center; */
+            /* align-items: center; */
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .ticket-upload-section {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            width: 100%;
+            max-width: 400px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .ticket-upload-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .ticket-file-input-container {
+            position: relative;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #f0fdfc, #e0f2f1);
+            border: 3px dashed #4db6ac;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .ticket-file-input-container:hover {
+            border-color: #009688;
+            background: linear-gradient(135deg, #e0f2f1, #b2dfdb);
+            transform: scale(1.02);
+        }
+
+        .ticket-upload-btn {
+            background: linear-gradient(135deg, #009688, #00796b);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            font-size: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(0, 150, 136, 0.3);
+        }
+
+        .ticket-upload-btn:hover {
+            background: linear-gradient(135deg, #00796b, #004d40);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 150, 136, 0.4);
+        }
+
+        /* Error Messages */
+        .error-message, .show-message {
+            margin: 20px auto;
+            max-width: 1100px;
+            background-color: #fee2e2;
+            border-left: 4px solid #dc2626;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(220, 38, 38, 0.1);
+        }
+
+        .show-message {
+            background-color: #d1fae5;
+            border-left-color: #059669;
+        }
+
+        /* Loader */
+        #page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 6px solid #009688;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loader-hidden {
+            display: none !important;
+        }
+
+        /* Room Error Styling */
+        .room-error {
+            background-color: #fee2e2 !important;
+            border: 2px solid #dc3545 !important;
+            border-radius: 8px;
+        }
+
+        .error-message-room {
+            background-color: #fee2e2;
+            color: #dc2626;
+            font-size: 14px;
+            padding: 8px 12px;
+            border-left: 4px solid #dc2626;
+            border-radius: 6px;
+            margin: 5px 0;
+            font-weight: 500;
+        }
+
+        /* Flight Form */
+        #flightForm {
+            max-width: 1300px;
+            margin: auto;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        #flightForm > div {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .traveler-list-section {
+            margin-top: 30px;
+            padding: 25px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            border: 2px solid #e0f2f1;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .traveler-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .traveler-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: linear-gradient(135deg, #f0fdfc, #e0f2f1);
+            border-radius: 50px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .traveler-card:hover {
+            background: linear-gradient(135deg, #e0f2f1, #b2dfdb);
+            border-color: #4db6ac;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(77, 182, 172, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            info-card
+            .tab {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .table-container, .info-card, #flightForm {
+                margin: 15px;
+                padding: 20px;
+            }
+            
+            .modal-content {
+                width: 90%;
+                margin: 20% auto;
+            }
+        }
+
+        /* Maintain Original Functionality Classes */
+        .disabled-row {
+            background-color: #f5f5f5;
+            pointer-events: none;
+            color: #c0bfbf;
+        }
+
+        .warning-message {
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            position: fixed;
+            z-index: 1000;
+            transition: opacity 0.5s;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+        }
+
+        .extra-details-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            width: 500px;
+            max-width: 90%;
+            margin: 40px auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .extra-details-form label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        .extra-details-form select,
+        .extra-details-form input[type="text"] {
+            width: 100%;
+            margin-bottom: 25px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .pkg-title{
+            position: relative;
+            left: 10px;
+        }
+
+
+
+        .guest-left {
+    right: 110px;
+    position: absolute;   /* keeps the whole block where you want */
+    border-radius: 25px;
+    display: inline-block;
+}
+
+.guest-dropdown-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 16px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 220px;         /* ✅ button width matches dropdown */
+}
+
+.guest-dropdown-content {
+    display: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    width: 220px;              /* match button width */
+    text-align: center;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    border-radius: 6px;
+    margin-top: 5px;
+    padding: 0;
+    z-index: 1;
+
+    /* ✅ scrolling */
+    max-height: 200px;         /* limit height */
+    overflow-y: auto;          /* enable vertical scroll */
+}
+
+.guest-dropdown-content li {
+    list-style: none;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.guest-dropdown-content li:last-child {
+    border-bottom: none;
+}
+
+.guest-dropdown-content li:hover {
+    background-color: #f1f1f1;
+}
+
+.guest-show {
+    display: block;
+}
+
+
+
+
+
+
+
+        /* Keep all original script functionality intact */
+    </style>
+</head>
+<body>
+
+    <div id="page-loader">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+    {% if selected_agentID %}
+    <!-- Header -->
+    <div class="header">
+        <img src="https://d230lfojd95r73.cloudfront.net/Content/logo-black.png" alt="Logo">
+
+        <div>
+            <h1><u>GUESTS DETAILS FORM</u></h1>
+        </div>
+    </div>
+
+    
+
+    <!-- Info Card -->
+    <div style="display: flex; justify-content: space-around; align-items: center;">
+        <div class="info-card">
+            <div class="pkg-title">
+                <h1>{{ selected_pkg_title|default:"Travel Package" }}</h1>
+                <p style="font-size: 18px;"><b>Tour Date :</b> {{ date_to_show|default:"Trip Date" }}</p>
+            </div>
+            <div class="info-grid">
+                <p><strong>Agent Name:</strong> {{ agent_details.0.0|title }}</p>
+                <p><strong>Agency:</strong> {{ agent_details.0.1|title }}</p>
+                <p><strong>Email:</strong> {{ agent_details.0.2 }}</p>
+                <p><strong>Mobile:</strong> {{ agent_details.0.3 }}</p>
+            </div>
+        </div>
+
+
+        <div class="info-card" style="height: 324px;">
+            <h2 style="text-align: center;"> Total Guest : {{ data_count_show.0 }} </h2>
+            <div>
+                <h3> Flight Details:</h3>
+                <p style="margin-left: 40px;"><strong> Guests w/o Tickets :</strong> {{ data_count_show.1 }} Guest(s)</p> 
+                <!-- Pending Tickets -->
+                <!-- <p><strong>Tickets Submit :</strong>  {{ data_count_show.2 }} </p>
+                <p><strong> Arrival Details Missing :</strong> {{ data_count_show.3 }} </p>
+                <p><strong> Departure Details Missing :</strong>  {{ data_count_show.4 }} </p> -->
+            </div>
+            <div style="margin-top: 55px;">
+                <h3> Passport Details:</h3>
+                <p style="margin-left: 40px;"><strong> Passport Left :</strong> {{ data_count_show.2 }} Guest(s)</p>
+                <!-- <p><strong> Passport Submit :</strong> {{ data_count_show.6 }} </p> -->
+            </div>
+            </div>
+
+
+
+
+    </div>
+
+
+
+    <!-- Tabs -->
+    <form method="GET" class="tabs">
+        <button type="submit" name="get_details" value="guest_details" class="tab
+            {% if get_details == 'guest_details' %} selected{% endif %}">
+           <i class="fas fa-users me-2"></i>  Guest Details  
+        </button>
+        
+        <button type="submit" name="get_details" value="flight_details" class="tab
+            {% if get_details == 'flight_details' %} selected{% endif %}"
+            {% if no_details_found %}disabled title="Please fill the Guest Details first"{% endif %}>
+            <i class="fas fa-plane me-2"></i> Flight Details
+        </button>
+
+        <button type="submit" name="get_details" value="passport_details" class="tab
+            {% if get_details == 'passport_details' %} selected{% endif %}"
+            {% if no_details_found %}disabled title="Please fill the Guest Details first"{% endif %}>
+            <i class="fas fa-passport me-2"></i> Passport Details
+        </button>
+
+        <button type="submit" name="get_details" value="extra_details" class="tab
+            {% if get_details == 'extra_details' %} selected{% endif %}"
+            {% if no_details_found %}disabled title="Please fill the Guest Details first"{% endif %}>
+           <i class="fas fa-cogs me-2"></i>  Extra Details
+        </button>
+    </form>
+    {% endif %}
+
+    {% if get_details == 'guest_details' %}
+        {% if selected_agentID %}
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color: #4caf50; text-align: center; font-size: 18px; background: #e8f5e8; padding: 15px; border-radius: 10px; margin: 20px auto; max-width: 1100px;">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <div class="table-container">
+            <form method="POST" id="editableTableForm">
+                {% csrf_token %}
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Room Number #</th>
+                                <th>First Name<br>(as per Passport)</th>
+                                <th>Last Name<br>(as per Passport)</th>
+                                <!-- <th>Gender</th> -->
+                                <th>Room Type</th>
+                                <th>Bed Type</th>
+                                <th>Pre Nights</th>
+                                <th>Post Nights</th>
+                                <th>Travelling?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if data_to_show %}
+                                {% for row in data_to_show %}
+                                    {% if row.9 == "Active" %}
+                                <tr>
+                                    <input type="hidden" name="trav_id[]" value="{{ row.3 }}">
+                                    <td style="text-align: center;" contenteditable="true" class="editable-cell" data-original="{{ row.0 }}" oninput="onlyNumberInput(this)">{{ row.0 }}</td>
+                                    <td contenteditable="true" class="editable-cell" data-original="{{ row.1 }}">{{ row.1 }}</td>
+                                    <td contenteditable="true" class="editable-cell" data-original="{{ row.2 }}">{{ row.2 }}</td>
+                                    <!-- <td>
+                                        <select class="gender-dropdown" name="gender">
+                                            <option value="">--Select Gender--</option>
+                                            <option value="Male" {% if row.4 == "Male" %}selected{% endif %}>Male</option>
+                                            <option value="Female" {% if row.4 == "Female" %}selected{% endif %}>Female</option>
+                                        </select>
+                                    </td> -->
+                                    <td>
+                                        <select class="roomtype-dropdown" name="roomtype" onchange="updateBedType(this)" required>
+                                            <option value="">--Select Room Type--</option>
+                                            <option value="Single" {% if row.5 == "Single" %}selected{% endif %}>Single</option>
+                                            <option value="Double" {% if row.5 == "Double" %}selected{% endif %}>Double</option>
+                                            <option value="Triple" {% if row.5 == "Triple" %}selected{% endif %}>Triple</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select style="width: fit-content;" class="bedtype-dropdown" name="bedtype" required>
+                                            <option value="">--Select Bed Type--</option>
+                                            <option value="One Bed" {% if row.6 == "One Bed" %}selected{% endif %}>King Size Bed</option>
+                                            <option value="Two Beds" {% if row.6 == "Two Beds" %}selected{% endif %}>2 Separate Bed</option>
+                                            <option value="Double with extra Bed" {% if row.6 == "Double with extra Bed" %}selected{% endif %}>King with Extra Bed</option>
+                                            <option value="Twin with extra Bed" {% if row.6 == "Twin with extra Bed" %}selected{% endif %}>2 Separate with Extra Bed</option>
+                                        </select>
+                                    </td>
+                                    <td style="text-align: center;" data-column="pre_nights" class="editable-cell" contenteditable="true" data-original="{{ row.7 }}" oninput="validateNumberInput(this)">
+                                        {{ row.7|safe_number }}
+                                    </td>
+                                    <td style="text-align: center;" data-column="post_nights" class="editable-cell" contenteditable="true" data-original="{{ row.8 }}" oninput="validateNumberInput(this)">
+                                        {{ row.8|safe_number }}
+                                    </td>
+                                    <td>
+                                        <label class="switch">
+                                          <input type="checkbox" name="toggle_status" {% if row.9 == "Active" %}checked{% endif %}>
+                                          <span class="slider"></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                    {% elif row.9 == "Deactive" %}
+                                <tr>
+                                    <td contenteditable="true" data-original="{{ row.0 }}" style="color: #ccc; text-align: center;" >{{ row.0 }}</td>
+                                    <td style="color: #ccc;">{{ row.1 }}</td>
+                                    <td style="color: #ccc;">{{ row.2 }}</td>
+                                    <td colspan="6" style="text-align: center; font-style: italic; color: red;">
+                                        Guest removal is in progress...
+                                    </td>
+                                </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="9"><strong>No Data Available</strong></td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <input type="hidden" name="changed_data" id="changedData">
+                <button type="submit" id="submitBtn">Submit Information</button>
+            </form>
+
+            <!-- Confirmation Modal -->
+            <div id="confirmationModal" class="modal">
+                <div class="modal-content">
+                    <p>Are you sure that all the Information is correct?</p>
+                    <button class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+                    <button class="btn btn-submit" onclick="confirmSubmit()">Yes, Submit</button>
+                </div>
+            </div>
+
+            <!-- Cancellation Policy Modal -->
+            <div id="confirmModal2" style="display:none; position: fixed; top:0; left:0; width:100%; height:100%;
+                background: rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:1000;">
+                <div style="background:#fff; padding:35px 40px; border-radius:15px; min-width:320px; max-width: 700px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.3);">
+                    <h3 style="margin-bottom:15px; color:#333;">Confirm Guest Travelling</h3>
+                    <p style="color:#555; margin-bottom:20px;">Are you sure that this guest is not travelling?</p>
+                    <div style="margin-top:15px;">
+                        <button id="confirmYes2" class="btn btn-submit" style="margin-right:10px;">Yes</button>
+                        <button id="confirmNo2" class="btn btn-cancel">No</button>
+                    </div>
+                    <hr style="margin:25px 0; border:none; height:1px; background:#ddd;">
+                    <h4 style="margin-bottom:15px; color:#333;"><strong><u>Cancellation Policy</u></strong></h4>
+                    <p style="margin:8px 0; font-weight:bold; color:#444;">Deposits are non-refundable</p>
+                    <p style="margin:8px 0; color:#555;"><b>►</b> If you cancel less than 60 days before the travel date & the destination is open, deposits are non-refundable and cannot be shifted to a later date. For the balance amount, the below cancellation fee will apply.</p>
+                    <p style="margin:8px 0; color:#555;"><b>►</b> If you cancel 60-31 days prior to the tour — Cancellation fee: <b>40%</b> of the cost.</p>
+                    <p style="margin:8px 0; color:#555;"><b>►</b> If you cancel 30-07 days prior to the tour — Cancellation fee: <b>75%</b> of the cost.</p>
+                    <p style="margin:8px 0; color:#555;"><b>►</b> If you cancel 06 days - 72 hours prior to the tour — Cancellation fee: <b>100%</b> of the cost.</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    {% elif get_details == 'flight_details' %}
+        {% if selected_agentID %}
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color: #4caf50; text-align: center; font-size: 18px; background: #e8f5e8; padding: 15px; border-radius: 10px; margin: 20px auto; max-width: 1100px;">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        {% if no_data_message %}
+        <div class="error-message">
+            <h3>Info:</h3>
+            <p style="color: rgb(236, 52, 52);">{{ no_data_message|safe }}</p>
+        </div>
+        {% elif no_details_found %}
+        <div class="error-message">
+            <h3>Error:</h3>
+            <p style="color: red;">{{ no_details_found|safe }}</p>
+        </div>
+        {% else %}
+
+
+
+
+        <div class="ticket-upload-wrapper">
+            <div class="ticket-upload-container">
+                <div class="ticket-upload-section">
+                    <div class="ticket-upload-header">
+                        <h3>Upload Your Flight Ticket Copy</h3>
+                        <p>Please select your flight ticket file to continue</p>
+                    </div>
+                    
+                    <form method="POST" enctype="multipart/form-data" class="ticket-upload-form">
+                        {% csrf_token %}
+                        
+                        <div class="ticket-file-input-container" id="ticket-file-drop-area">
+                            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <p>Drag & drop your file here or <strong>browse</strong></p>
+                            <input style="display: none;" type="file" name="file" id="ticket_file" required class="ticket-file-input">
+                            <div class="ticket-file-name" id="ticket-file-name"></div>
+                        </div>
+                        
+                        <button type="submit" class="ticket-upload-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            Upload Ticket
+                        </button>
+                        
+                        <div class="ticket-upload-progress">
+                            <div class="ticket-progress-bar" id="ticket-progress-bar"></div>
+                        </div>
+                        
+                        <input type="hidden" name="selected_year" value="{{ selected_year }}">
+                        <input type="hidden" name="selected_pkg_id" value="{{ selected_pkg_id }}">
+                        <input type="hidden" name="selected_date" value="{{ selected_date }}">
+                        <input type="hidden" name="selected_agentID" value="{{ selected_agentID }}">
+                    </form>
+                </div>
+
+
+                <div class="table-container" style="margin: 0px 30px; height: 400px; overflow-y: scroll;">
+                    <table style="padding: 15px;">
+                        <thead>
+                            <tr>
+                                <th style="width: 250px;">Guest Name</th>
+                                <th style="width: 180px;">Arrivial Details</th>
+                                <th style="width: 180px;">Departure Details</th>
+                                <th style="width: 180px;">Edit/More Details</th>
+                                <th> Download</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                {% for row in guest_flight_details %}
+                                <tr>
+                                    <td> {{ row.1 }} {{ row.2 }} </td>
+                                    <td style="text-align: center; color: green;" > 
+                                        {% if row.3  == 'Yes' %} 
+                                            &#10004;
+                                        {% else %}
+                                            &#10060;
+                                        {% endif %}
+                                    </td>
+                                    <td style="text-align: center; color: green;" > 
+                                        {% if row.4  == 'Yes' %} 
+                                            &#10004;
+                                        {% else %}
+                                            &#10060;
+                                        {% endif %}
+                                    </td>
+
+                                
+
+                                    <td style="text-align: center;">
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="trav_id" value="{{ row.0 }}">
+                                            <input type="hidden" name="manual_edit" value="manual_edit">
+
+                                            <button type="submit">Click Here</button>
+                                        </form>
+                                    </td>
+                                    <td style="text-align: center;"><a href="https://agentdatas3.s3.us-east-1.amazonaws.com/passports/2025-08-21/101555.jpg"><i class="fa fa-download"></i></a></td>
+                                </tr>
+                                {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                
+
+                
+
+
+                
+            </div>
+
+
+            {% if error_message %}
+            <div class="error-message">
+                <h3>Ticket Info:</h3>
+                <p style="color: red">{{ error_message }}</p>
+            </div>
+            {% endif %}
+        </div>
+
+        {% if file_uploaded_type == 'sheet' %}
+            <p style="color: red; text-align: center; font-weight: bold; margin: 20px;">
+                * If something is wrong Please Re-Upload the File or Change the Fields Manually.
+            </p>
+
+            <div class="table-container">
+                <form id="flightForm" method="POST" onsubmit="return showFlightConfirmationModal(event)">
+                    {% csrf_token %}
+                    <h3 style="text-align: center; font-size: 1.5rem; margin-bottom: 25px; color: #009688;">Flight Details Form</h3>
+                    
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Arrival Flight Details</th>
+                                    <th>Arrival Airport Name</th>
+                                    <th style="width: 96px;">Arrival Date</th>
+                                    <th>Arrival Time</th>
+                                    <th>Departure Flight Details</th>
+                                    <th>Departure Airport Name</th>
+                                    <th>Departure Date</th>
+                                    <th>Departure Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if flight_list %}
+                                    {% for row in flight_list %}
+                                    <tr>
+                                        <input type="hidden" name="trav_id[]" value="{{ row.10 }}">
+                                        <td style="background-color: #f5f5f5;">{{ row.0 }}</td>
+                                        <td class="editable-cell" contenteditable="true" oninput="syncInput(this)">
+                                            {{ row.1 }}
+                                            <input type="hidden" name="arrival_flight[]" value="{{ row.1 }}">
+                                        </td>
+                                        <td class="editable-cell" contenteditable="true" oninput="syncInput(this)">
+                                            {{ row.7 }}
+                                            <input type="hidden" name="arrival_airport[]" value="{{ row.7 }}">
+                                        </td>
+
+                                        <td class="editable-date" data-value="{{ row.2|default:'YYYY-MM-DD' }}">
+                                            {{ row.2|default:"YYYY-MM-DD" }}
+                                            <input type="hidden" name="arrival_date[]" value="{{ row.2 }}">
+                                        </td> 
+
+                                        <td class="editable-time" data-value="{{ row.3|default:'HH:MM' }}">
+                                            {{ row.3|default:'HH:MM' }}
+                                            <input type="hidden" name="arrival_time[]" value="{{ row.3 }}">
+                                        </td>
+                                        <td class="editable-cell" contenteditable="true" oninput="syncInput(this)">
+                                            {{ row.4 }}
+                                            <input type="hidden" name="departure_flight[]" value="{{ row.4 }}">
+                                        </td>
+                                        <td class="editable-cell" contenteditable="true" oninput="syncInput(this)">
+                                            {{ row.8 }}
+                                            <input type="hidden" name="departure_airport[]" value="{{ row.8 }}">
+                                        </td>
+
+                                        <td class="editable-date" data-value="{{ row.5|default:'YYYY-MM-DD' }}">
+                                            {{ row.5|default:"YYYY-MM-DD" }}
+                                            <input type="hidden" name="departure_date[]" value="{{ row.5 }}">
+                                        </td>   
+
+                                        <td class="editable-time" data-value="{{ row.6|default:'HH:MM' }}">
+                                            {{ row.6|default:'HH:MM' }}
+                                            <input type="hidden" name="departure_time[]" value="{{ row.6 }}">
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="9"><strong>No Data Available</strong></td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                    <p style="color: red; text-align: left; margin-top: 5px;"> 
+                        * Only Data for {{ flight_list|length }} guests was found in the uploaded file.
+                    </p>
+
+                    
+
+                    <div style="margin: 35px 0; display: flex; gap:10px;">
+                        <label for="remarks" style="font-weight: 600; margin-bottom: 8px; display: block;">Remarks: </label>
+                        <input type="text" name="remarks" id="remarks" style="width: 50%; padding: 12px; border-radius: 8px; border: 2px solid #e0e0e0;">
+                    </div>
+
+                    <button type="submit" id="submitBtn">Submit Information</button>
+
+                    <input type="hidden" name="selected_year" value="{{ selected_year }}">
+                    <input type="hidden" name="selected_pkg_id" value="{{ selected_pkg_id }}">
+                    <input type="hidden" name="selected_date" value="{{ selected_date }}">
+                    <input type="hidden" name="selected_agentID" value="{{ selected_agentID }}">
+                    <input type="hidden" name="submit_type" value="sheet">
+                </form>
+            </div>
+
+        {% elif file_uploaded_type == 'image' %}
+            <div>
+                <form id="flightForm" method="POST" onsubmit="return showFlightConfirmationModal(event)">
+                    {% csrf_token %}
+
+                    <div id="flightForm1">
+                        <h3 style="color: #009688; margin-bottom: 25px;">Flight Details Form</h3>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; align-items: center;">
+                            <div>
+                                <label for="arrival_flight"><b>Arrival Flight Number to Trip</b></label>
+                                <input type="text" name="arrival_flight" value="{{ flight_list.0.4 }}">
+                            </div>
+                            <div>
+                                <label for="arrival_airport"><b>Arrival Airport Name</b></label>
+                                <input type="text" name="arrival_airport" value="{{ flight_list.0.9 }}">
+                            </div>
+                            <div>
+                                <label for="arrival_date"><b>Arrival Date</b></label>
+                                <input type="date" name="arrival_date" value="{{ flight_list.0.6 }}">
+                            </div>
+                            <div>
+                                <label for="arrival_time"><b>Arrival Time</b></label>
+                                <input type="time" name="arrival_time" value="{{ flight_list.0.7 }}">
+                            </div>
+                            <div>
+                                <label for="departure_flight"><b>Departure Flight Number from Trip</b></label>
+                                <input type="text" name="departure_flight" value="{{ flight_list.1.0 }}">
+                            </div>
+                            <div>
+                                <label for="departure_airport"><b>Departure Airport Name</b></label>
+                                <input type="text" name="departure_airport" value="{{ flight_list.1.8 }}">
+                            </div>
+                            <div>
+                                <label for="departure_date"><b>Departure Date</b></label>
+                                <input type="date" name="departure_date" value="{{ flight_list.1.2 }}">
+                            </div>
+                            <div>
+                                <label for="departure_time"><b>Departure Time</b></label>
+                                <input type="time" name="departure_time" value="{{ flight_list.1.3 }}">
+                            </div>
+                        </div>
+                        
+                        <div style="margin: 25px 0;">
+                            <label for="remarks"><b>Remark: </b></label>
+                            <input type="text" name="remarks" id="remarks">
+                        </div>
+
+                        <div style="display: flex; justify-content: end; margin: 20px 0;">
+                            <button style="height: 50px; width: fit-content;" type="button" onclick="showForm('flightForm2')">Next &gt;</button>
+                        </div>
+                    </div>
+
+                    <div id="flightForm2" style="display: none;">
+                        <h3 style="color: #009688; margin-bottom: 25px;">Select Travelers</h3>
+
+                        <div class="traveler-list-section">
+                            <label style="font-weight: 600; margin-bottom: 15px; display: block;">Select Travelers <span style="color: red;">*</span></label>
+
+                            <div style="margin-bottom: 20px;">
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <input type="checkbox" id="select-all" onchange="toggleSelectAll()">
+                                    <strong>Select All</strong>
+                                </label>
+                            </div>
+
+                            <div class="traveler-card-grid">
+                                {% for data in data_to_show %}
+                                {% with full_name=data.0|join_name:data.1 %}
+                                <label class="traveler-card">
+                                    <input type="checkbox" name="trav_id[]" value="{{ data.2 }}"
+                                        {% if full_name in flight_traveller_name %}checked{% endif %}
+                                        onchange="updateSelection()">
+                                    <span>{{ data.0 }} {{ data.1 }}</span>
+                                </label>
+                                {% endwith %}
+                                {% endfor %}
+                            </div>
+
+                            <span id="traveler-error" style="color: red; display: none;">
+                                Please select at least one traveler.
+                            </span>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; margin: 30px 0;">
+                            <button style="height: 50px; width: fit-content;" type="button" onclick="showForm('flightForm1')">&lt; Previous</button>
+                            <button type="submit" id="submitBtn">Submit</button>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="selected_year" value="{{ selected_year }}">
+                    <input type="hidden" name="selected_pkg_id" value="{{ selected_pkg_id }}">
+                    <input type="hidden" name="selected_date" value="{{ selected_date }}">
+                    <input type="hidden" name="selected_agentID" value="{{ selected_agentID }}">
+                    <input type="hidden" name="submit_type" value="image">
+                </form>
+            </div>
+
+
+        {% elif file_uploaded_type == 'manual' %}   
+             <div>
+                <form id="flightForm" method="POST" onsubmit="return showFlightConfirmationModal(event)">
+                    {% csrf_token %}
+
+                    <div id="flightForm1">
+                        <h3 style="color: #009688; margin-bottom: 25px;">Flight Details Form</h3>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; align-items: center;">
+                            <div>
+                                <label for="arrival_flight"><b>Arrival Flight Number to Trip</b></label>
+                                <input type="text" name="arrival_flight" value="{{ flight_list.0.0 }}">
+                            </div>
+                            <div>
+                                <label for="arrival_airport"><b>Arrival Airport Name</b></label>
+                                <input type="text" name="arrival_airport" value="{{ flight_list.0.1 }}">
+                            </div>
+                            <div>
+                                <label for="arrival_date"><b>Arrival Date</b></label>
+                                <input type="date" name="arrival_date" value="{{ flight_list.0.2 }}">
+                            </div>
+                            <div>
+                                <label for="arrival_time"><b>Arrival Time</b></label>
+                                <input type="time" name="arrival_time" value="{{ flight_list.0.3 }}">
+                            </div>
+                            <div>
+                                <label for="departure_flight"><b>Departure Flight Number from Trip</b></label>
+                                <input type="text" name="departure_flight" value="{{ flight_list.0.4 }}">
+                            </div>
+                            <div>
+                                <label for="departure_airport"><b>Departure Airport Name</b></label>
+                                <input type="text" name="departure_airport" value="{{ flight_list.0.5 }}">
+                            </div>
+                            <div>
+                                <label for="departure_date"><b>Departure Date</b></label>
+                                <input type="date" name="departure_date" value="{{ flight_list.0.6 }}">
+                            </div>
+                            <div>
+                                <label for="departure_time"><b>Departure Time</b></label>
+                                <input type="time" name="departure_time" value="{{ flight_list.0.7 }}">
+                            </div>
+                        </div>
+                        
+                        <div style="margin: 25px 0;">
+                            <label for="remarks"><b>Remark: </b></label>
+                            <input type="text" name="remarks" id="remarks">
+                        </div>
+
+                        <div style="display: flex; justify-content: end; margin: 20px 0;">
+                            <button style="height: 50px; width: fit-content;" type="button" onclick="showForm('flightForm2')">Next &gt;</button>
+                        </div>
+                    </div>
+
+                    <div id="flightForm2" style="display: none;">
+                        <h3 style="color: #009688; margin-bottom: 25px;">Select Travelers</h3>
+
+                        <div class="traveler-list-section">
+                            <label style="font-weight: 600; margin-bottom: 15px; display: block;">Select Travelers <span style="color: red;">*</span></label>
+
+                            <div style="margin-bottom: 20px;">
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <input type="checkbox" id="select-all" onchange="toggleSelectAll()">
+                                    <strong>Select All</strong>
+                                </label>
+                            </div>
+
+                            <div class="traveler-card-grid">
+                                {% for data in data_to_show %}
+                                {% with full_name=data.0|join_name:data.1 %}
+                                <label class="traveler-card">
+                                    <input type="checkbox" name="trav_id[]" value="{{ data.2 }}"
+                                        {% if full_name in flight_traveller_name %}checked{% endif %}
+                                        onchange="updateSelection()">
+                                    <span>{{ data.0 }} {{ data.1 }}</span>
+                                </label>
+                                {% endwith %}
+                                {% endfor %}
+                            </div>
+
+                            <span id="traveler-error" style="color: red; display: none;">
+                                Please select at least one traveler.
+                            </span>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; margin: 30px 0;">
+                            <button style="height: 50px; width: fit-content;" type="button" onclick="showForm('flightForm1')">&lt; Previous</button>
+                            <button type="submit" id="submitBtn">Submit</button>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="selected_year" value="{{ selected_year }}">
+                    <input type="hidden" name="selected_pkg_id" value="{{ selected_pkg_id }}">
+                    <input type="hidden" name="selected_date" value="{{ selected_date }}">
+                    <input type="hidden" name="selected_agentID" value="{{ selected_agentID }}">
+                    <input type="hidden" name="submit_type" value="image">
+                </form>
+            </div>
+
+
+
+        {% endif %}
+
+        <!-- Flight Confirmation Modal -->
+        <div id="FlightconfirmationModal" class="modal">
+            <div class="modal-content">
+                <p>Are you sure that all the Flight Information is correct?</p>
+                <button class="btn btn-cancel" onclick="FlightcloseModal()">Cancel</button>
+                <button class="btn btn-submit" onclick="FlightconfirmSubmit()">Yes, Submit</button>
+            </div>
+        </div>
+        {% endif %}
+        {% endif %}
+
+    {% elif get_details == 'passport_details' %}
+        {% if selected_agentID %}
+        {% if upload_results %}
+            <div class="table-container">
+                <h4 style="text-align: center; color: #009688; margin-bottom: 20px;">Passport Upload Summary</h4>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;">Filename</th>
+                                <th style="text-align: center;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for file in upload_results %}
+                                <tr>
+                                    <td style="text-align: center;">{{ file.filename }}</td>
+                                    <td style="text-align: center;">
+                                        {% if file.status == "Passport is Valid." %}
+                                            <span style="color: #4caf50; background-color: #e8f5e8; padding: 8px 12px; border-radius: 6px; font-weight: 500;">{{ file.status }}</span>
+                                        {% else %}
+                                            <span style="color: #f44336; background-color: #ffebee; padding: 8px 12px; border-radius: 6px; font-weight: 500;">{{ file.status }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if no_data_message %}
+        <div class="error-message">
+            <h3>Error:</h3>
+            <p style="color: red;">{{ no_data_message|safe }}</p>
+        </div>
+        {% elif no_details_found %}
+        <div class="error-message">
+            <h3>Error:</h3>
+            <p style="color: red;">{{ no_details_found|safe }}</p>
+        </div>
+        {% else %}
+
+        <div class="ticket-upload-wrapper">
+            <div class="ticket-upload-container" style="gap: 65px;">
+                <div class="ticket-upload-section" style="max-width: 550px;">
+                    <div class="ticket-upload-header">
+                        <h3>Upload Your Passport Copy</h3>
+                        <p>Please select your Passport files to continue</p>
+                    </div>
+                    
+                    <form method="POST" enctype="multipart/form-data" class="ticket-upload-form">
+                        {% csrf_token %}
+                        
+                        <div class="ticket-file-input-container" id="ticket-file-drop-area">
+                            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <p>Drag & drop your files here or <strong>browse</strong></p>
+                            <input style="display: none;" type="file" name="file" id="ticket_file" required class="ticket-file-input" multiple>
+                            <div class="ticket-file-name" id="ticket-file-name"></div>
+                        </div>
+                        
+                        <button type="submit" class="ticket-upload-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            Upload Passports
+                        </button>
+                        
+                        <div class="ticket-upload-progress">
+                            <div class="ticket-progress-bar" id="ticket-progress-bar"></div>
+                        </div>
+                        
+                        <input type="hidden" name="selected_year" value="{{ selected_year }}">
+                        <input type="hidden" name="selected_pkg_id" value="{{ selected_pkg_id }}">
+                        <input type="hidden" name="selected_date" value="{{ selected_date }}">
+                        <input type="hidden" name="selected_agentID" value="{{ selected_agentID }}">
+                    </form>
+                </div>
+
+                <div class="table-container" style="margin: 0px 30px; height: 400px; overflow-y: scroll;">
+                    <table style="padding: 15px;" >
+                        <thead>
+                            <tr>
+                                <th> Guest Name</th>
+                                <th> Passport Submitted </th>
+                                <th style="width: 150px;"> Download </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                {% for row in guest_flight_details %}
+                                <tr>
+                                    <td style="display: flex; margin: 8px 8px;"> {{ row.1 }} {{ row.2 }} </td>
+                                    <td style="text-align: center; color: green;" > 
+                                        {% if row.3  == 'Yes' %} 
+                                            &#10004;
+                                        {% else %}
+                                            &#10060;
+                                        {% endif %}
+                                    </td>
+                                    
+                                    <td style="text-align: center;"><a href="https://agentdatas3.s3.us-east-1.amazonaws.com/passports/2025-08-21/101555.jpg"><i class="fa fa-download"></i></a></td>
+                            
+
+                                
+
+                            
+                                </tr>
+                                {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+            </div>
+        </div>
+        {% endif %}
+
+        {% if show_message %}
+            {% if show_message == "Passport is Valid." %}
+                <div class="show-message">
+                    <h3>Passport Info:</h3>
+                    <p style="color: #4caf50;">{{ show_message }}</p>
+                </div>
+            {% else %}
+                <div class="error-message">
+                    <h3>Passport Info:</h3>
+                    <p style="color: red">{{ show_message }}</p>
+                </div>
+            {% endif %}
+        {% endif %}
+        {% endif %}
+
+    {% elif get_details == 'extra_details' %}
+        {% if selected_agentID %}
+            {% if error_message %}
+                <div class="error-message">
+                    <h3>Error:</h3>
+                    <p style="color: red;">{{ error_message|safe }}</p>
+                </div>
+            {% else %}
+        
+            {% if messages %}
+                {% for message in messages %}
+                    <p style="color: #4caf50; text-align: center; font-size: 18px; background: #e8f5e8; padding: 15px; border-radius: 10px; margin: 20px auto; max-width: 1100px;">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+
+                <form method="POST" class="extra-details-form">
+                    {% csrf_token %}
+    
+                    <label>Whether Optional Tour Taken ?</label>
+                    <select name="optional_tour" required>
+                        <option value="" {% if extra_details.0 == None %}selected{% endif %}>-- Please Select --</option>
+                        <option value="Yes" {% if extra_details.0 == "Yes" %}selected{% endif %}>Yes</option>
+                        <option value="No" {% if extra_details.0 == "No" %}selected{% endif %}>No</option>
+                    </select>
+    
+                    <label>Whether Extension Tour Taken ?</label>
+                    <select name="extension_tour" required>
+                        <option value="" {% if extra_details.1 == None %}selected{% endif %}>-- Please Select --</option>
+                        <option value="Yes" {% if extra_details.1 == "Yes" %}selected{% endif %}>Yes</option>
+                        <option value="No" {% if extra_details.1 == "No" %}selected{% endif %}>No</option>
+                    </select>
+    
+                    <label>Whether Travelling with Kids - Specify Number of Children & Their Age</label>
+                    <input type="text" name="kids_info" value="{{ extra_details.2|default_if_none:'' }}">
+    
+                    <label>Any Special Request?</label>
+                    <input type="text" name="special_request" value="{{ extra_details.3|default_if_none:'' }}">
+    
+                    <button type="submit" id="submitBtn">Submit Information</button>
+                </form>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+
+
+
+
+    <script>
+
+
+
+  // 08-08-2025
+
+    function showLoader() {
+            document.getElementById('page-loader').classList.remove('loader-hidden');
+        }
+
+        function hideLoader() {
+            document.getElementById('page-loader').classList.add('loader-hidden');
+        }
+
+        // Load Event Handlers
+        window.addEventListener('load', function() {
+            hideLoader();
+        });
+
+        window.addEventListener('beforeunload', function() {
+            showLoader();
+        });
+
+
+
+
+
+const ROOM_CAPACITY_MAP = {
+    "Single": 1,
+    "Double": 2,
+    "Triple": 3
+};
+
+function validateLiveRoomCapacity() {
+    const roomGroups = {};
+    let isValid = true;
+
+    // Remove old errors
+    document.querySelectorAll('.room-error').forEach(el => el.classList.remove('room-error'));
+    document.querySelectorAll('.room-error-msg').forEach(el => el.remove());
+
+    // Group rows by room number
+    document.querySelectorAll('tbody tr').forEach(row => {
+        const isChecked = row.querySelector('input[name="toggle_status"]')?.checked;
+        if (!isChecked) return;
+
+        const roomCell = row.querySelector('td[contenteditable="true"][data-original]');
+        const roomNumber = roomCell?.textContent.trim();
+        const roomType = row.querySelector('.roomtype-dropdown')?.value;
+
+        if (roomNumber) {
+            if (!roomGroups[roomNumber]) {
+                roomGroups[roomNumber] = {
+                    roomType: roomType,
+                    rows: []
+                };
+            }
+            roomGroups[roomNumber].rows.push(row);
+        }
+    });
+
+    // 🔁 Auto-set room type based on number of guests per room
+    for (const roomNo in roomGroups) {
+        const { rows } = roomGroups[roomNo];
+        const guestCount = rows.length;
+
+        let autoRoomType = null;
+        if (guestCount === 1) autoRoomType = "Single";
+        else if (guestCount === 2) autoRoomType = "Double";
+        else if (guestCount === 3) autoRoomType = "Triple";
+
+        if (autoRoomType) {
+            rows.forEach(row => {
+                const roomTypeDropdown = row.querySelector('.roomtype-dropdown');
+                if (roomTypeDropdown.value !== autoRoomType) {
+                    roomTypeDropdown.value = autoRoomType;
+                    roomTypeDropdown.dispatchEvent(new Event('change'));  // 🔁 Trigger original listener
+                }
+                Array.from(roomTypeDropdown.options).forEach(option => {
+                        option.disabled = option.value !== autoRoomType;
+                    });
+            });
+            // Update the stored room type for validation
+            roomGroups[roomNo].roomType = autoRoomType;
+        }
+
+
+        
+    }
+
+    // Validate each room group
+    for (const roomNo in roomGroups) {
+        const { rows } = roomGroups[roomNo];
+        const uniqueRoomTypes = new Set(rows.map(row => row.querySelector('.roomtype-dropdown')?.value));
+
+        const lastRow = rows[rows.length - 1];
+        const roomType = roomGroups[roomNo].roomType || rows[0].querySelector('.roomtype-dropdown')?.value;
+        const capacity = ROOM_CAPACITY_MAP[roomType] || 0;
+
+        // Inconsistent room types
+        if (uniqueRoomTypes.size > 1) {
+            isValid = false;
+            rows.forEach(row => {
+                const roomCell = row.querySelector('td[contenteditable="true"][data-original]');
+                roomCell.classList.add('room-error');
+            });
+
+            const errorRow = document.createElement('tr');
+            errorRow.className = 'room-error-msg';
+
+            const td = document.createElement('td');
+            td.colSpan = lastRow.cells.length;
+            td.innerHTML = `<div class="error-message-room">Room ${roomNo} has inconsistent room types. All guests in the same room must have the same room type.</div>`;
+            errorRow.appendChild(td);
+
+            lastRow.parentNode.insertBefore(errorRow, lastRow.nextSibling);
+            continue;
+        }
+
+        // Over-capacity
+        if (rows.length > capacity) {
+            isValid = false;
+            rows.forEach(row => {
+                const roomCell = row.querySelector('td[contenteditable="true"][data-original]');
+                roomCell.classList.add('room-error');
+            });
+
+            const errorRow = document.createElement('tr');
+            errorRow.className = 'room-error-msg';
+
+            const td = document.createElement('td');
+            td.colSpan = lastRow.cells.length;
+            td.innerHTML = `<div class="error-message-room">Room ${roomNo} (${roomType}) can only hold ${capacity} guest(s), but ${rows.length} are assigned. Please Change the Room Type or Reduce No. of Guests</div>`;
+            errorRow.appendChild(td);
+
+            lastRow.parentNode.insertBefore(errorRow, lastRow.nextSibling);
+        }
+    }
+
+    return isValid;
+}
+
+
+
+
+function sortGuestRows() {
+    const form = document.getElementById('editableTableForm');
+    if (!form) return;
+
+    const table = form.querySelector('table');
+    const tbody = form.querySelector('tbody') || table;
+    if (!tbody) return;
+
+    // Extract all guest rows
+    const rows = Array.from(tbody.querySelectorAll('tr')).filter(row => {
+        return row.querySelector('input[name="trav_id[]"]');
+    });
+
+    if (rows.length === 0) return;
+
+    // Remove them temporarily
+    rows.forEach(row => row.remove());
+
+    // Sort by room number (first cell)
+    rows.sort((a, b) => {
+        const roomA = a.cells[0].textContent.trim();
+        const roomB = b.cells[0].textContent.trim();
+        return roomA.localeCompare(roomB, undefined, { numeric: true, sensitivity: 'base' });
+    });
+
+    // Reinsert in sorted order
+    rows.forEach(row => tbody.appendChild(row));
+}
+        function separateRoomGroups() {
+    const form = document.getElementById('editableTableForm');
+    if (!form) {
+        console.warn("Guest details form not found");
+        return;
+    }
+
+    const table = form.querySelector('table');
+    const tbody = form.querySelector('tbody') || table;
+
+    
+    document.querySelectorAll('tr[data-room-spacer="auto"]').forEach(spacer => {
+        spacer.remove();
+    });
+
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    let lastRoomNumber = null;
+
+    rows.forEach(row => {
+       // console.log("row",row.innerText)
+        const roomCell = row.querySelector('td[contenteditable="true"][data-original]');
+        if (!roomCell) return;
+
+        const roomNumber = roomCell.textContent.trim();
+        if (!roomNumber) return;
+
+        // Insert spacer if room changed
+        if (lastRoomNumber && roomNumber !== lastRoomNumber) {
+            const spacerRow = document.createElement('tr');
+            spacerRow.setAttribute('data-room-spacer', 'auto');
+            spacerRow.style.height = '10px';
+
+            const spacerCell = document.createElement('td');
+            spacerCell.colSpan = 9; // ✅ Match your 9 columns
+            spacerCell.style.height = '30px';
+            spacerCell.style.backgroundColor = '#ccc';
+            spacerCell.style.border = 'none';
+            spacerCell.style.padding = '0';
+
+            spacerRow.appendChild(spacerCell);
+            tbody.insertBefore(spacerRow, row); // Insert before current row
+        }
+
+        lastRoomNumber = roomNumber;
+    });
+}
+
+    document.addEventListener('DOMContentLoaded', function () {
+        sortGuestRows();
+    separateRoomGroups(); // Add spacers
+    validateLiveRoomCapacity(); // Validate
+});
+
+document.addEventListener('input', function (e) {
+    const roomCell = e.target;
+
+    if (!roomCell.matches('td[contenteditable="true"][data-original]')) return;
+    if (roomCell.innerText.trim() === "" || !Number(roomCell.innerText.trim())) return;
+
+    // Debounce to avoid rapid calls
+    setTimeout(() => {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+        // Use requestAnimationFrame to preserve scroll after re-render
+        window.requestAnimationFrame(() => {
+            sortGuestRows();
+            separateRoomGroups();
+            validateLiveRoomCapacity();
+
+            window.scrollTo({ top: scrollTop });
+        });
+    }, 1500);
+});
+
+    
+
+        document.querySelectorAll(".roomtype-dropdown").forEach(roomSelect => {
+            roomSelect.addEventListener('change', function() {
+                const selectedRoomType = this.value;
+                const currentRow = this.closest('tr');
+                const roomNumberCell = currentRow.querySelector('td[contenteditable="true"][data-original]');
+                const roomNumber = roomNumberCell ? roomNumberCell.textContent.trim() : null;
+
+                if (!roomNumber) return;
+
+                // Loop through all rows to update those with matching room number
+                document.querySelectorAll('tbody tr').forEach(row => {
+                    const rowRoomCell = row.querySelector('td[contenteditable="true"][data-original]');
+                    const rowRoomNumber = rowRoomCell ? rowRoomCell.textContent.trim() : null;
+
+                    if (rowRoomNumber === roomNumber) {
+                        const roomTypeSelect = row.querySelector('.roomtype-dropdown');
+                        const bedTypeSelect = row.querySelector('.bedtype-dropdown');
+
+                        if (roomTypeSelect && bedTypeSelect) {
+                            roomTypeSelect.value = selectedRoomType;
+                            updateBedType(roomTypeSelect);
+                        }
+                    }
+                });
+                validateLiveRoomCapacity(); 
+            });
+        });
+
+
+
+
+
+
+    document.querySelectorAll(".bedtype-dropdown").forEach(bedSelect => {
+    bedSelect.addEventListener('change', function() {
+        const selectedBedType = this.value;
+        const currentRow = this.closest('tr');
+        const roomNumberCell = currentRow.querySelector('td[contenteditable="true"][data-original]');
+        const roomNumber = roomNumberCell ? roomNumberCell.textContent.trim() : null;
+
+        if (!roomNumber) return;
+
+        // Loop through all rows to update those with matching room number
+        document.querySelectorAll('tbody tr').forEach(row => {
+            const rowRoomCell = row.querySelector('td[contenteditable="true"][data-original]');
+            const rowRoomNumber = rowRoomCell ? rowRoomCell.textContent.trim() : null;
+
+            if (rowRoomNumber === roomNumber) {
+                const bedTypeSelect = row.querySelector('.bedtype-dropdown');
+                if (bedTypeSelect) {
+                    bedTypeSelect.value = selectedBedType;
+                }
+            }
+        });
+    });
+});
+
+
+        
+        // Only Accepy Number in Row
+        function validateNumberInput(cell) {
+            let value = cell.textContent.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+            if (value > 5) {
+                value = 5; // Restrict max value to 5
+                showWarning(cell, "Maximum Allowed Nights: 5!"); // Show warning message
+            }
+            cell.textContent = value; // Update content with only numbers
+        }
+
+        function onlyNumberInput(cell) {
+            let value = cell.textContent.replace(/[^0-9]/g, ''); // Strip non-numeric characters
+            // Allow blank while typing
+            if (value === "") {
+                cell.textContent = ""; // Let it stay empty for now
+                return;
+            }
+            let num = parseInt(value);
+            if (num < 1) {
+                num = 1;
+            }
+            cell.textContent = num;
+            const currentRow = cell.closest('tr');
+            const selectedRoomType = currentRow.querySelector('.roomtype-dropdown')?.value;
+
+            if (!selectedRoomType) return;
+
+            // Sync room type with other rows of same room number
+            const roomNumber = String(num);
+
+            document.querySelectorAll('tbody tr').forEach(row => {
+                const rowRoomCell = row.querySelector('td[contenteditable="true"][data-original]');
+                const rowRoomNumber = rowRoomCell ? rowRoomCell.textContent.trim() : null;
+
+                if (rowRoomNumber === roomNumber) {
+                    const roomTypeSelect = row.querySelector('.roomtype-dropdown');
+                    if (roomTypeSelect) {
+                        roomTypeSelect.value = selectedRoomType;
+                        updateBedType(roomTypeSelect); // Keep bed type in sync too (optional)
+                    }
+                }
+            });
+
+            validateLiveRoomCapacity(); 
+        }
+
+        
+
+
+
+
+
+
+        // Function to show a temporary warning message
+        function showWarning(cell, message) {
+            let warning = document.createElement("div");
+            warning.className = "warning-message";
+            warning.textContent = message;
+            
+            // Position the warning message near the cell
+            let rect = cell.getBoundingClientRect();
+            warning.style.position = "absolute";
+            warning.style.left = `${rect.left + window.scrollX}px`;
+            warning.style.top = `${rect.bottom + window.scrollY}px`;
+
+            document.body.appendChild(warning);
+
+            // Remove warning after 2 seconds
+            setTimeout(() => {
+                warning.remove();
+            }, 2000);
+        }
+
+
+
+    // Editable Table Script
+    document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('editableTableForm');
+    
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const allData = [];
+        const roomCountMap = {};
+        let roomError = false;
+        let errors = false;
+        // Clear any previous room error styling and messages
+        document.querySelectorAll('.room-error').forEach(cell => {
+            cell.classList.remove('room-error');
+        });
+        document.querySelectorAll('tbody tr').forEach((row) => {
+            const roomCell = row.querySelector('td[contenteditable="true"][data-original]');
+            const roomNumber = roomCell?.textContent.trim();
+            if (!roomNumber) {
+            emptyRoomFound = true;
+            // Highlight empty cell
+            if (roomCell) {
+                // roomCell.classList.add('room-error');
+                errors = true;
+            }
+        }
+        });
+
+        if(errors){
+            alert("Please Fill all the Room Numbers.");
+            return;
+        }
+
+        // Remove all existing error messages
+        document.querySelectorAll('.room-error-msg').forEach(msg => {
+            msg.remove();
+        });
+
+        // Collect data row-by-row
+        document.querySelectorAll('tbody tr').forEach((row) => {
+            const rowData = {};
+            const roomCell = row.querySelector('td[contenteditable="true"][data-original]');
+            const editableTds = row.querySelectorAll('td.editable-cell');
+
+            const roomNumber = roomCell?.textContent.trim();
+            
+            if (roomNumber) {
+                roomCountMap[roomNumber] = (roomCountMap[roomNumber] || 0) + 1;
+            }
+
+            rowData['room_number'] = roomNumber || "";
+            rowData['first_name'] = editableTds[1]?.textContent.trim() || "";
+            rowData['last_name'] = editableTds[2]?.textContent.trim() || "";
+            rowData['gender'] = row.querySelector('select[name="gender"]')?.value || "";
+            rowData['room_type'] = row.querySelector('select[name="roomtype"]')?.value || "";
+            rowData['bed_type'] = row.querySelector('select[name="bedtype"]')?.value || "";
+            rowData['pre_nights'] = row.querySelector('td[data-column="pre_nights"]')?.textContent.trim() || "";
+            rowData['post_nights'] = row.querySelector('td[data-column="post_nights"]')?.textContent.trim() || "";
+            rowData['guest_travelling'] = row.querySelector('input[name="toggle_status"]')?.checked ? "Active" : "Deactive";
+            rowData['trav_id'] = row.querySelector('input[name="trav_id[]"]')?.value || "";
+
+            if (rowData['trav_id']) {
+                allData.push({ rowData, rowEl: row });
+            }
+        });
+
+        // Validate room count: no more than 3 guests per room
+        for (let [roomNo, count] of Object.entries(roomCountMap)) {
+            if (count > 3) {
+                allData.forEach(({ rowData, rowEl }) => {
+                    if (rowData.room_number === roomNo) {
+                        const cell = rowEl.querySelector('td[contenteditable="true"][data-original]');
+                        cell.classList.add('room-error');
+
+                        // Create warning row that appears below the cell
+                        const warningRow = document.createElement('tr');
+                        warningRow.className = 'room-error-msg';
+
+                        // Count columns to match table structure
+                        const columnCount = rowEl.querySelectorAll('td').length;
+
+                        // Create a cell that spans the entire width
+                        const warningCell = document.createElement('td');
+                        warningCell.colSpan = columnCount;
+                        warningCell.style.padding = '0';
+                        warningCell.style.border = 'none';
+
+                        // Create the error message div
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'error-message-room';
+                        errorDiv.textContent = 'Maximum 3 guests are allowed per Room Number.';
+
+                        // Add the message to the cell and the cell to the row
+                        warningCell.appendChild(errorDiv);
+                        warningRow.appendChild(warningCell);
+
+                        // Insert the warning row after the current row
+                        rowEl.parentNode.insertBefore(warningRow, rowEl.nextSibling);
+                    }
+                });
+                roomError = true;
+            }
+        }
+
+        const isValid = validateLiveRoomCapacity();
+
+        if (!isValid) {
+            alert("🚫 Submission blocked: Some rooms have more guests than allowed.");
+            // closeModal(); // Hide modal if open
+            return;
+        }
+
+        // Show the confirmation modal instead of submitting directly
+        document.getElementById('changedData').value = JSON.stringify(allData.map(x => x.rowData));
+        showConfirmationModal(e);
+    });
+});
+
+
+
+
+
+const validCombinations = {
+        "Single": ["One Bed"],
+        "Double": ["One Bed", "Two Beds"],
+        "Triple": ["Double with extra Bed", "Twin with extra Bed"]
+    };
+
+    function updateBedType(roomSelect) {
+        const row = roomSelect.closest("tr");
+        const bedSelect = row.querySelector(".bedtype-dropdown");
+        const selectedRoomType = roomSelect.value;
+
+        // Get valid bed options for selected room type
+        const validBeds = validCombinations[selectedRoomType];
+
+        // Loop through options and disable invalid ones
+        Array.from(bedSelect.options).forEach(option => {
+            if (validBeds.includes(option.value)) {
+                option.disabled = false;
+                option.style.color = "black"; // Enable valid options
+            } else {
+                option.disabled = true;
+                option.style.color = "gray"; // Gray out invalid options
+            }
+        });
+
+        // Auto-select a valid option if the current selection is not valid
+        if (!validBeds.includes(bedSelect.value)) {
+            bedSelect.value = validBeds[0];
+        }
+    }
+
+    // Initialize bedtype options based on the current roomtype
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll(".roomtype-dropdown").forEach(roomSelect => {
+            updateBedType(roomSelect); // Apply logic immediately
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+    validateLiveRoomCapacity();
+});
+
+
+
+
+
+
+
+
+
+    // Dropdown Script for Guest Name in Flight Ticket Details
+    function toggleDropdown() {
+        document.getElementById("dropdown-content").classList.toggle("show");
+    }
+
+function updateSelection() {
+    let selectedValues = [];
+    let checkboxes = document.querySelectorAll('input[name="trav_id[]"]:checked');
+    let allCheckboxes = document.querySelectorAll('input[name="trav_id[]"]');
+    let selectAllCheckbox = document.getElementById("select-all");
+
+    checkboxes.forEach((checkbox) => {
+        selectedValues.push(checkbox.nextSibling.textContent.trim());
+    });
+
+    document.querySelector('.dropdown-toggle').textContent = selectedValues.length ? selectedValues.join(", ") : "Select Travelers";
+
+    // Hide the error message if a checkbox is selected
+    if (checkboxes.length > 0) {
+        document.getElementById("traveler-error").style.display = "none";
+    }
+
+    // Update select-all checkbox state
+    selectAllCheckbox.checked = checkboxes.length === allCheckboxes.length;
+}
+
+function toggleSelectAll() {
+    let selectAllCheckbox = document.getElementById("select-all");
+    let checkboxes = document.querySelectorAll('input[name="trav_id[]"]');
+    
+    checkboxes.forEach((checkbox) => {
+        checkbox.checked = selectAllCheckbox.checked;
+    });
+    
+    updateSelection();
+}
+
+function validateSelection() {
+    let checkboxes = document.querySelectorAll('input[name="trav_id[]"]:checked');
+    let errorMessage = document.getElementById("traveler-error");
+
+    if (checkboxes.length === 0) {
+        errorMessage.style.display = "inline"; // Show error message
+        return false; // Prevent form submission
+    }
+
+    return true; // Allow form submission
+}
+
+// Close dropdown if clicked outside
+document.addEventListener("click", function(event) {
+    let dropdown = document.querySelector(".dropdown");
+    if (!dropdown.contains(event.target)) {
+        document.getElementById("dropdown-content").classList.remove("show");
+    }
+});
+
+// Initialize select-all checkbox state on page load
+window.addEventListener("DOMContentLoaded", function() {
+    let checkboxes = document.querySelectorAll('input[name="trav_id[]"]');
+    let allChecked = checkboxes.length > 0;
+    
+    for (let checkbox of checkboxes) {
+        if (!checkbox.checked) {
+            allChecked = false;
+            break;
+        }
+    }
+    
+    document.getElementById("select-all").checked = allChecked;
+    updateSelection();
+});
+
+    
+ 
+    // Confirmation Modal Script for Flight Details
+    function showFlightConfirmationModal(event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Check if traveler validation is required (image mode only)
+        const hasTravelerCheckboxes = document.querySelectorAll('input[name="trav_id[]"][type="checkbox"]').length > 0;
+
+        if (hasTravelerCheckboxes) {
+            let checkboxes = document.querySelectorAll('input[name="trav_id[]"]:checked');
+            if (checkboxes.length <= 0) { 
+                alert("Please select at least one traveler."); 
+                return false;  
+            }
+
+            // Validate selection before opening modal
+            if (typeof validateSelection === 'function' && !validateSelection()) {
+                return false;
+            }
+        }
+
+        document.getElementById("FlightconfirmationModal").style.display = "block";
+        return false;
+    }
+
+
+
+    function FlightconfirmSubmit() {
+        console.log("flightForm",document.getElementById("flightForm"))
+        document.getElementById("flightForm").submit(); // Submit the form
+    }
+
+    function FlightcloseModal() {
+        document.getElementById("FlightconfirmationModal").style.display = "none";
+    }
+
+
+
+
+
+
+
+
+    (function () {
+    document.addEventListener('DOMContentLoaded', () => {
+        const fileInput = document.getElementById('ticket_file');
+        const fileName = document.getElementById('ticket-file-name');
+        const dropArea = document.getElementById('ticket-file-drop-area');
+
+        if (!fileInput || !fileName || !dropArea) return; // Safety check
+
+        // Shared function to update file names and styling
+        function updateFileDisplay(files) {
+            if (files && files.length > 0) {
+                const names = Array.from(files)
+                    .map(file => `<div>${file.name}</div>`)
+                    .join('');
+                fileName.innerHTML = names;
+                fileName.style.display = 'block';
+                dropArea.style.borderColor = '#4caf50';
+                dropArea.style.backgroundColor = '';
+            } else {
+                fileName.innerHTML = '';
+                fileName.style.display = 'none';
+                dropArea.style.borderColor = '';
+                dropArea.style.backgroundColor = '';
+            }
+        }
+
+        // When files are chosen via click
+        fileInput.addEventListener('change', function () {
+            updateFileDisplay(this.files);
+        });
+
+        // Drag over styling
+        dropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropArea.style.borderColor = '#4361ee';
+            dropArea.style.backgroundColor = '#f0f7ff';
+        });
+
+        // Drag leave styling
+        dropArea.addEventListener('dragleave', () => {
+            dropArea.style.borderColor = '#d1d9e6';
+            dropArea.style.backgroundColor = '#f7f9fc';
+        });
+
+        // Handle file drop
+        dropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileInput.files = e.dataTransfer.files; // Assign dropped files to the hidden input
+            updateFileDisplay(fileInput.files);
+        });
+
+        // Optional: allow clicking drop area to open file dialog
+        dropArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+    });
+})();
+
+
+
+
+
+
+
+
+
+
+    //Working Now
+    function showConfirmationModal(event) {
+    event.preventDefault(); // Prevent form submission
+
+    // Validate selection before opening modal
+    if (!validateSelection()) {
+        return false; // Stop if validation fails
+    }
+
+    document.getElementById("confirmationModal").style.display = "block";
+    return false;
+}
+
+function confirmSubmit() {
+    document.getElementById("editableTableForm").submit(); // Submit the form
+}
+
+function closeModal() {
+    document.getElementById("confirmationModal").style.display = "none";
+}
+
+function validateSelection() {
+    // Add any additional validation logic here if needed
+    // For example, check if at least one traveler is selected
+    return true; // Return true if validation passes
+}
+
+
+
+
+
+
+
+
+
+
+let activeForm = "flightForm1";  // Default form
+
+    // Toggle between forms
+    function showForm(formId) {
+        
+        document.getElementById("flightForm1").style.display = "none";
+        document.getElementById("flightForm2").style.display = "none";
+
+        const form = document.getElementById(formId);
+        form.style.display = "block";
+        activeForm = formId;
+
+        // Update active button styling
+        const buttons = document.querySelectorAll(".switch-form");
+        buttons.forEach(btn => btn.classList.remove("active"));
+
+        if (formId === "flightForm1") {
+            buttons[0].classList.add("active"); // Outbound button
+            document.getElementById("routeInfo1").style.display = "block";
+            document.getElementById("routeInfo2").style.display = "none";
+
+        } else {
+            buttons[1].classList.add("active"); // Inbound button
+            document.getElementById("routeInfo1").style.display = "none";
+        document.getElementById("routeInfo2").style.display = "block";
+        }
+    }
+
+
+    // Attach submit handler on DOM load
+    window.addEventListener("DOMContentLoaded", () => {
+        showForm('flightForm1'); // ✅ Show only Login form on load
+    });
+    
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+            const shouldScroll = "{{ upload_success|yesno:'true,false' }}" === "true";
+            if (shouldScroll) {
+                const flightForm = document.getElementById("flightForm");
+                if (flightForm) {
+                    flightForm.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+            }
+        });
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+            const shouldScroll = "{{ file_uploaded_type }}" === "manual";
+            if (shouldScroll) {
+                const flightForm = document.getElementById("flightForm");
+                if (flightForm) {
+                    flightForm.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+            }
+        });
+
+
+
+
+
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // Date cells
+        document.querySelectorAll('.editable-date').forEach(cell => {
+            cell.addEventListener('click', function () {
+                if (this.querySelector('input[type="text"]')) return; // Prevent re-initialization
+
+                const originalValue = this.getAttribute('data-value');
+                const hiddenInput = this.querySelector('input[type="hidden"]');
+
+                const input = document.createElement('input');
+                input.type = 'date';
+                input.value = originalValue;
+                input.style.width = '100%';
+
+                this.innerHTML = '';
+                this.appendChild(input);
+                this.appendChild(hiddenInput);  // re-add hidden input
+
+                flatpickr(input, {
+                    dateFormat: "Y-m-d",
+                    defaultDate: originalValue,
+                    minDate: new Date().fp_incr(1),
+                    onClose: function (selectedDates, dateStr, instance) {
+                        cell.setAttribute('data-value', dateStr);
+                        hiddenInput.value = dateStr;
+                        cell.innerHTML = dateStr + `<input type="hidden" name="${hiddenInput.name}" value="${dateStr}">`;
+                    }
+                });
+
+                input.focus();
+            });
+        });
+
+        // Time cells
+        document.querySelectorAll('.editable-time').forEach(cell => {
+            cell.addEventListener('click', function () {
+                if (this.querySelector('input[type="text"]')) return;
+
+                const originalValue = this.getAttribute('data-value');
+                const hiddenInput = this.querySelector('input[type="hidden"]');
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = originalValue;
+                input.style.width = '100%';
+
+                this.innerHTML = '';
+                this.appendChild(input);
+                this.appendChild(hiddenInput);
+
+                flatpickr(input, {
+                    enableTime: true,
+                    noCalendar: true,
+                    dateFormat: "H:i",
+                    time_24hr: true,
+                    defaultHour: parseInt(originalValue.split(':')[0]) || 0,
+                    defaultMinute: parseInt(originalValue.split(':')[1]) || 0,
+                    onClose: function (selectedDates, dateStr, instance) {
+                        cell.setAttribute('data-value', dateStr);
+                        hiddenInput.value = dateStr;
+                        cell.innerHTML = dateStr + `<input type="hidden" name="${hiddenInput.name}" value="${dateStr}">`;
+                    }
+                });
+
+                input.focus();
+            });
+        });
+    });
+
+    function syncInput(td) {
+    const hiddenInput = td.querySelector('input[type="hidden"]');
+    if (hiddenInput) {
+        hiddenInput.value = td.textContent.trim();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const rows = document.querySelectorAll('tbody tr');
+
+    rows.forEach((row) => {
+        const editableCells = row.querySelectorAll('td.editable-cell');
+        let debounceTimer;
+
+        if (editableCells.length > 1) {
+            const firstNameCell = editableCells[1];  // 2nd editable cell = First Name
+            const genderSelect = row.querySelector('select[name="gender"]');
+
+            // ✅ Check if gender is already Male or Female
+            const currentGender = genderSelect?.value;
+            if (currentGender !== "Male" && currentGender !== "Female") {
+                const firstName = firstNameCell.textContent.trim();
+                if (firstName.length > 1) {
+                    autoGuessGender(firstName, row);
+                }
+            }
+
+            // ✅ Add real-time gender detection
+            firstNameCell.addEventListener('input', function () {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    const firstName = firstNameCell.textContent.trim();
+
+                    // Re-check gender field
+                    const currentGender = genderSelect?.value;
+                    if ((currentGender !== "Male" && currentGender !== "Female") && firstName.length > 1) {
+                        autoGuessGender(firstName, row);
+                    }
+                }, 500);
+            });
+        }
+    });
+
+    function autoGuessGender(firstName, row) {
+        if (firstName.length <= 1) return;
+
+        fetch('/guess-gender', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken()
+            },
+            body: JSON.stringify({ first_name: firstName })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const genderSelect = row.querySelector('select[name="gender"]');
+            if (data.gender === 'Male' || data.gender === 'Female') {
+                genderSelect.value = data.gender;
+                genderSelect.classList.add('autofilled');
+            } else {
+                genderSelect.value = "";
+                genderSelect.classList.remove('autofilled');
+            }
+        })
+        .catch(error => {
+            console.error("Gender guess error:", error);
+        });
+    }
+
+    function getCSRFToken() {
+        return document.querySelector('[name=csrfmiddlewaretoken]').value;
+    }
+});
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const toggleInputs = document.querySelectorAll('input[name="toggle_status"]');
+    let pendingToggle = null;
+
+    function updateRowState(row, isActive) {
+        row.querySelectorAll('td[data-original]').forEach(cell => {
+            if (isActive) {
+                cell.setAttribute("contenteditable", "true");
+                cell.classList.remove("disabled-row");
+            } else {
+                cell.removeAttribute("contenteditable");
+                cell.classList.add("disabled-row");
+            }
+        });
+
+        row.querySelectorAll("select").forEach(select => {
+            if (isActive) {
+                select.removeAttribute("disabled");
+                select.setAttribute("required", "true");
+            } else {
+                select.setAttribute("disabled", "true");
+                select.removeAttribute("required");
+            }
+        });
+    }
+
+    toggleInputs.forEach(toggle => {
+        const row = toggle.closest("tr");
+        updateRowState(row, toggle.checked);
+
+        toggle.addEventListener("change", function (e) {
+            if (!this.checked) {
+                // Show modal ONLY when going from ON → OFF
+                e.preventDefault();
+                this.checked = true;
+                pendingToggle = this;
+                document.getElementById('confirmModal2').style.display = 'flex';
+            } else {
+                updateRowState(row, this.checked);
+
+                // ✅ Auto-select the first valid bed type for this row
+                const bedSelect = row.querySelector('.bedtype-dropdown');
+                if (bedSelect && bedSelect.options.length > 0) {
+                    bedSelect.selectedIndex = 0; // Select first option
+                    updateBedType(row.querySelector('.roomtype-dropdown')); // Apply filtering logic
+                }
+
+                validateLiveRoomCapacity();
+
+            }
+        });
+    });
+
+    document.getElementById('confirmYes2').onclick = function () {
+        if (pendingToggle) {
+            const row = pendingToggle.closest("tr");
+            pendingToggle.checked = false;
+            updateRowState(row, false);
+            validateLiveRoomCapacity();
+            
+        }
+        closeModal2();
+    };
+
+    document.getElementById('confirmNo2').onclick = function () {
+        pendingToggle = null;
+        closeModal2();
+    };
+
+    function closeModal2() {
+        document.getElementById('confirmModal2').style.display = 'none';
+    }
+});
+  
+
+
+    </script>
+</body>
+</html>
+
+
+

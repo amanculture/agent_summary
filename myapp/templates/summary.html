@@ -1,0 +1,104 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            text-align: center;
+            margin: 20px;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            /* gap: 20px; */
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 1500px;
+            margin: auto;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .package-selection {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button.selected {
+            background-color: #28a745;
+        }
+        button.selected:hover {
+            background-color: #218838;
+        }
+        #chart-container {
+            flex: 1;
+            min-width: 500px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Chart selection buttons -->
+    <form method="GET" class="button-group">
+        <button type="submit" name="chart_show" value="Agent Registration Comparison"
+            {% if chart_show == 'Agent Registration Comparison' %} class="selected" {% endif %}>Agent Registration Summary</button>
+        <button type="submit" name="chart_show" value="Deposit Comparison"
+            {% if chart_show == 'Deposit Comparison' %} class="selected" {% endif %}>Deposit Summary</button>
+        <button type="submit" name="chart_show" value="Package Comparison"
+            {% if chart_show == 'Package Comparison' %} class="selected" {% endif %}>Package Summary</button>
+    </form>
+
+    <div class="container">
+        {% if chart_show == "Package Comparison" %}
+            <form method="GET" class="package-selection">
+                <button type="submit" name="select_package" value="8"
+                    {% if select_package == '8' %} class="selected" {% endif %}>DASHING DUBAI</button>
+                <button type="submit" name="select_package" value="157"
+                    {% if select_package == '157' %} class="selected" {% endif %}>DASHING DUBAI (6 Nights)</button>
+                <button type="submit" name="select_package" value="57"
+                    {% if select_package == '57' %} class="selected" {% endif %}>FASCINATING BALI</button>
+                <button type="submit" name="select_package" value="13"
+                    {% if select_package == '13' %} class="selected" {% endif %}>GLORIOUS GREECE</button>
+                
+                
+                <input type="hidden" name="chart_show" value="{{ chart_show }}">
+            </form>
+        {% endif %}
+        
+        <div id="chart-container"></div>
+    </div>
+    
+    <script>
+        var chartData = {{ chart_json | safe }};
+        Plotly.newPlot('chart-container', chartData.data, chartData.layout);
+    </script>
+
+</body>
+</html>

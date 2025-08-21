@@ -1,0 +1,120 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        .button-group {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button.selected {
+            background-color: #28a745;
+        }
+        button.selected:hover {
+            background-color: #218838;
+        }
+
+        .country-form {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            max-width: 400px;
+            margin: 10px auto;
+            padding: 10px;
+            align-items: center;
+            background: #f2f2f291;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgb(0 0 0 / 42%);
+        }
+
+
+        .country {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+
+    </style>
+</head>
+<body>
+    
+    
+    <form method="GET" class="button-group">
+        <button type="submit" name="msg_chart" value="Package_Query"
+            {% if msg_chart == "Package_Query" %} class="selected" {% endif %}>
+            Package Queries
+        </button>
+    
+        <button type="submit" name="msg_chart" value="Customized_Trip_Query"
+            {% if msg_chart == "Customized_Trip_Query" %} class="selected" {% endif %}>
+            Customized Trip Queries
+        </button>
+    
+        <button type="submit" name="msg_chart" value="Offline_Query"
+            {% if msg_chart == "Offline_Query" %} class="selected" {% endif %}>
+            Offline Queries
+        </button>
+    
+        <button type="submit" name="msg_chart" value="General_Query"
+            {% if msg_chart == "General_Query" %} class="selected" {% endif %}>
+            General Queries
+        </button>
+    
+        <button type="submit" name="msg_chart" value="Total_Query"
+            {% if msg_chart == "Total_Query" %} class="selected" {% endif %}>
+            Total Queries
+        </button>
+        </form>
+
+
+       {% if msg_chart in "Package_Query,Customized_Trip_Query,Offline_Query,General_Query" %}
+        <form method="GET" class="country-form">
+            <div class="container">
+                <input type="hidden" name="msg_chart" value="{{ msg_chart }}">
+                <select class="country" name="selected_country" id="country-select" onchange="this.form.submit()">
+                    <option value="all">-- ALL Countries --</option>
+                    {% for country in countries %}
+                        <option value="{{ country }}" 
+                            {% if country == selected_country %} selected {% endif %}>
+                            {{ country }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+        {% endif %}
+
+
+    <div id="chart-container"></div>
+
+
+
+    <script>
+        var chartData = {{ chart_json | safe }};
+        Plotly.newPlot('chart-container', chartData.data, chartData.layout);
+    </script>
+</body>
+</html>

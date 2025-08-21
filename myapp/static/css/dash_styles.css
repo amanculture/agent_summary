@@ -1,0 +1,50 @@
+.custom-header {
+    background-color: #007bff !important;  /* Blue */
+    color: white !important;
+    font-weight: bold !important;
+    text-align: center !important; 
+}
+
+.ag-header-icon {
+    color: black !important;
+}
+.ag-header-cell-menu-button{
+    color: black !important;
+}
+
+
+.pkg-form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    max-width: 400px;
+    margin: 10px auto;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.pkg-title-select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.pkg-submit-btn {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.pkg-submit-btn:hover {
+    background-color: #0056b3;
+}

@@ -1,0 +1,496 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agents Report</title>
+    <style>
+
+.spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 5px solid #3498db;
+        animation: spin 1s linear infinite;
+    }
+
+
+        #page-loader {
+        position: fixed;
+        flex-direction: column;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+        .loader-hidden {
+        display: none !important;
+    }
+
+
+
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h3 {
+            color: #333;
+        }
+
+        /* Table Styling */
+        /* Styling for Flexbox Layout */
+        .tables-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 90%;
+            margin: 20px auto;
+            gap: 20px;
+        }
+
+        .table-responsive_info, .table-responsive_website {
+            flex: 1;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Ensure tables take full width */
+        .table-responsive_info table, .table-responsive_website table, .table-responsive_avg_login table {
+            width: 100%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #ffffff;
+        }
+        caption {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            margin-top: 20px;
+            color: #333;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Buttons */
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Select Month & Year */
+        .month-selector {
+            width: 90%;
+            max-width: 400px;
+            margin: 10px auto;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        input[type="month"] {
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .chart-table-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 90%;
+            margin: 20px auto;
+            gap: 20px;
+        }
+
+        /* Chart Styling */
+        .chart-container {
+            flex: 2; /* Chart takes more space */
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .table-responsive_avg_login {
+            flex: 1; /* Table takes less space */
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px; /* Limit the table width */
+        }
+        img {
+            width: 90%;
+            max-width: 1000px;
+            max-height: 500px;
+            border-radius: 10px;
+            margin-top: 5px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Error & Query Section */
+        .section {
+            width: 80%;
+            margin: 20px auto;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .error-message {
+            color: red;
+            font-weight: bold;
+        }
+
+
+
+        /* Modal Styling */
+.modal {
+    display: none; /* Hide modal by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-height: 85vh; /* Limits height to 80% of viewport */
+    overflow-y: auto; /* Enables vertical scrolling */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    animation: fadeIn 0.3s;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: red;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+    </style>
+</head>
+<body>
+    <!-- <P> Executed Query : {{executed_query}}</P> -->
+    <!-- <P> Selected Date : {{selected_date}}</P> -->
+
+    <!-- LOADER HERE -->
+    <div id="page-loader">
+        <div class="spinner"></div>
+        <p>Loading... </p>
+    </div>
+
+
+
+    <!-- Select Month & Year -->
+    <div class="month-selector">
+        <label for="month_for_info"><strong>Select Month & Year:</strong></label>
+        <form>
+            <input type="month" name="month_for_info" value="{{ month_for_info }}" onchange="this.form.submit()">
+        </form>
+    </div>
+
+    <!-- Display Chart -->
+    {% if month_for_info %}
+    <div class="chart-table-container">
+        <div class="chart-container">
+            <h3>Monthly Analysis</h3>
+            <img src="{% static 'Charts/bar_chart_' %}{{ year }}.png" alt="Chart">
+        </div>
+
+        <div class="table-responsive_avg_login">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Date With Most Search</th>
+                        <th>Date With Most Login</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in avg_date %}
+                    <tr>
+                        <td>{{ row.Month }}</td>  <!-- Already formatted as "Jan", "Feb", etc. -->
+                        <td>{{ row.Date_with_most_search|default:"-" }}</td>
+                        <td>{{ row.Date_with_most_login|default:"-" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+        <!-- Monthly Data Table -->
+        <div class="table-responsive">
+            <table>
+                <caption>Monthly Information </caption> 
+                <caption>Most Search Package of this Month is <u>{{ month_most_package.0.2 }}</u> </caption>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Number of Verifications</th>
+                        <th>Number of Registrations</th>
+                        <th>Number of Logins</th>
+                        <th>Agent Logins (30 Days Reg)</th>
+                        <th>Agent Logins (15 Days Reg)</th>
+                        <th>Agent Logins (5 Days Reg)</th>
+                        <th>Most Search Tour</th>
+                    </tr>
+                </thead>
+                {% if monthly_data %}
+                <tbody>
+                    {% for data in monthly_data %}
+                        <tr>
+                            <td>{{ data.0|date:"d/m/Y" }}</td> <!--Date-->
+                            <td>{{ data.2 }}</td>   <!--Number of Verification-->
+                            <td>{{ data.1 }}</td>   <!--Number of Registration-->
+                            <td>{{ data.3 }}</td>   <!--Number of Logins-->
+
+                            <td>
+                                <a href="#" class="clickable-text" onclick="submitForm(this)">{{ data.4 }}</a>
+                                <form method="POST" action="">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="selected_date" value="{{ data.0|date:"Y-m-d" }}">
+                                    <input type="hidden" name="title" value="Agent's Login who register in last 30 Days.">
+                                    <input type="hidden" name="details_for" value="30days">
+                                </form>
+                            </td>   <!--Agent Logins (30 Days Reg)-->
+
+                            <td>
+                                <a href="#" class="clickable-text" onclick="submitForm(this)">{{ data.5 }}</a>
+                                <form method="POST" action="">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="selected_date" value="{{ data.0|date:"Y-m-d" }}">
+                                    <input type="hidden" name="title" value="Agent's Login who register in last 15 Days.">
+                                    <input type="hidden" name="details_for" value="15days">
+                                </form>
+                            </td>   <!--Agent Logins (15 Days Reg)-->
+
+                            <td>
+                                <a href="#" class="clickable-text" onclick="submitForm(this)">{{ data.6 }}</a>
+                                <form method="POST" action="">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="selected_date" value="{{ data.0|date:"Y-m-d" }}">
+                                    <input type="hidden" name="title" value="Agent's Login who register in last 05 Days.">
+                                    <input type="hidden" name="details_for" value="05days">
+                                </form>
+                            </td>   <!--Agent Logins (05 Days Reg)-->
+
+                            <td>
+
+                                <form method="POST" action="">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="selected_date" value="{{ data.0|date:"Y-m-d" }}">
+                                    <input type="hidden" name="title" value="Packages with Most Search">
+                                    <input type="hidden" name="details_for" value="search">
+                                    <button type="submit">Click Here</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                {% else %}
+                    <tbody>
+                        <tr>
+                            <td colspan="7" style="color: red;">No Data Available</td>
+                        </tr>
+                    </tbody>
+                {% endif %} 
+            </table>
+        </div>
+    {% endif %}
+
+
+
+
+
+
+
+    {% if selected_date %}
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModalBtn">&times;</span>
+            <h3> {{ title }} </h3>
+            <!-- <div class="info_by_date">
+                <p>Date: <strong id="modalDate"></strong></p>
+            </div> -->
+    
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            {% for header in data_headers %}
+                            <th style="position: sticky; top: -21px;">{{header}}</th>
+                            {% endfor %}
+                            
+                        </tr>
+                    </thead>
+                    {% if data_for_selected_date %}
+                    <tbody id="modalTableBody">
+                        {% for data in data_for_selected_date %}
+                            <tr>
+                                <td>{{ data.0|date:"d/m/Y" }}</td> <!-- Date -->
+                                <td>{{ data.1 }}</td>   <!-- Package ID -->
+                                <td>{{ data.2 }}</td>   <!-- Package Name -->
+                                {% if details_for == "search" %}
+                                <td>{{ data.3 }}</td>   <!-- Search Count -->
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    {% else %}
+                        <tbody>
+                            <tr>
+                                <td colspan="4" style="color: red;">No Data Available</td>
+                            </tr>
+                        </tbody>
+                    {% endif %} 
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
+
+
+
+
+
+
+
+    <script>
+
+       // Loader Functions
+    function showLoader() {
+        document.getElementById('page-loader').classList.remove('loader-hidden');
+    }
+
+    function hideLoader() {
+        document.getElementById('page-loader').classList.add('loader-hidden');
+    }
+
+    // Load Event Handlers
+    window.addEventListener('load', function() {
+        hideLoader();
+    });
+
+    window.addEventListener('beforeunload', function() {
+        showLoader();
+    });
+
+
+
+    function submitForm(element) {
+    var form = element.nextElementSibling; // Get the next sibling form
+    if (form) {
+        form.submit(); // Submit the form
+    }
+}
+
+
+    // Get modal elements
+const modal = document.getElementById('infoModal');
+const closeModalBtn = document.getElementById('closeModalBtn');
+
+// Function to show modal
+// function showModal(date) {
+//     document.getElementById('modalDate').innerText = date; // Update date in modal
+//     modal.style.display = "flex"; // Show modal
+// }
+
+// Function to close modal
+closeModalBtn.addEventListener('click', () => {
+    modal.style.display = "none";
+    
+});
+
+// Close modal if clicked outside
+window.addEventListener('click', (event) => {
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+});
+
+// Attach event listener to all "Click Here" buttons
+document.querySelectorAll('.click-here-btn').forEach(button => {
+    button.addEventListener('click', function(event) {
+        event.preventDefault();
+        const date = this.getAttribute('data-date'); // Get date from button
+        showModal(date);
+    });
+});
+
+    </script>
+</body>
+</html>

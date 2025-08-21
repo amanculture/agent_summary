@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Agent Data</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-hover: #3a56d4;
+            --secondary-color: #f8f9fa;
+            --border-color: #e2e8f0;
+            --text-color: #1e293b;
+            --light-text: #64748b;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --radius: 8px;
+            --transition: all 0.2s ease;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .form-container {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        select, button, input {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+        
+        select, input[type="date"] {
+            background-color: white;
+            width: auto;
+            min-width: 200px;
+            cursor: pointer;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+        }
+        
+        /* Dropdown styling */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            margin-right: 15px;
+        }
+        
+        .dropdown button {
+            width: 220px;
+            padding: 0.75rem 1rem;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            color: var(--text-color);
+            font-size: 0.95rem;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dropdown button:after {
+            content: "▼";
+            font-size: 0.7rem;
+            color: var(--light-text);
+        }
+        
+        .dropdown button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .dropdown-content {
+            display: none;
+            /* position: absolute; */
+            left: 0;
+            top: 100%;
+            background-color: white;
+            min-width: 280px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            z-index: 10;
+            padding: 0.5rem;
+            box-shadow: var(--shadow);
+            max-height: 332px;
+            overflow-y: auto;
+            margin-top: 5px;
+        }
+        
+        /* .dropdown:hover .dropdown-content,
+        .dropdown-content:hover {
+            display: block;
+        } */
+        
+        #nationalitySearch,
+        #companySearch {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            background: white;
+            margin-bottom: 10px;
+        }
+        
+        #nationalityCheckboxes,
+        #companyCheckboxes {
+            margin-top: 5px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+        
+        .nationality-option,
+        .company-option {
+            display: block;
+            padding: 0.5rem;
+            transition: var(--transition);
+            border-radius: var(--radius);
+            cursor: pointer;
+        }
+        
+        .nationality-option:hover,
+        .company-option:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .date-range {
+            display: flex;
+            gap: 20px;
+            align-items: flex-end;
+            margin-top: 5px;
+        }
+        
+        .date-control {
+            flex: 1;
+            max-width: 220px;
+        }
+        
+        .download-options {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 2rem;
+        }
+        
+        #download_format {
+            max-width: 180px;
+        }
+        
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Selected items display */
+        .selected-items {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: var(--light-text);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        
+        .selected-tag {
+            display: inline-block;
+            background-color: #ebf5ff;
+            color: var(--primary-color);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            border: 1px solid rgba(67, 97, 238, 0.2);
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            
+            .date-range {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+            
+            .date-control {
+                max-width: 100%;
+                width: 100%;
+            }
+            
+            .dropdown {
+                display: block;
+                margin-right: 0;
+                margin-bottom: 15px;
+                width: 100%;
+            }
+            
+            .dropdown button {
+                width: 100%;
+            }
+            
+            .dropdown-content {
+                width: 100%;
+            }
+            
+            .download-options {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            
+            #download_format {
+                max-width: 100%;
+            }
+        }
+        
+        /* Clear filters button */
+        .clear-btn {
+            background-color: #f43f5e;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: var(--radius);
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            position: absolute;
+            right: 2rem;
+            top: 2rem;
+        }
+        
+        .clear-btn:hover {
+            background-color: #e11d48;
+        }
+        
+        /* Checkbox styling */
+        input[type="checkbox"] {
+            margin-right: 0.5rem;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <h1>Download Agent Data</h1>
+    
+    <div class="form-container">
+
+        {% if error_message %}
+        <div id="error-message" style="color: red; font-weight: bold;">
+            {{ error_message }}
+            <br>
+        </div>
+        <script>
+            setTimeout(function() {
+            window.location.href = "{% url 'agent_data' %}";  // or just "/agentdata"
+            }, 2000); // 5000 milliseconds = 5 seconds
+        </script>
+        {% endif %}
+
+        <form method="get" action="">
+            <div class="form-group">
+                <label for="nationality"><b>Select Nationality:</b></label>
+                <div class="dropdown">
+                    <button type="button">Select Nationality</button>
+                    <div class="dropdown-content">
+                        <input 
+                            type="text" 
+                            id="nationalitySearch" 
+                            placeholder="Search Nationality..." 
+                            onkeyup="searchNationality()">
+                            
+                        <div id="selectedNationality" class="selected-items">
+                            <!-- Dynamically filled by JS -->
+                        </div>
+                            
+                        <div id="nationalityCheckboxes">
+                            {% for tbl in nationality %}
+                            <label class="nationality-option">
+                                <input 
+                                    type="checkbox" 
+                                    name="nationality" 
+                                    value="{{ tbl }}" 
+                                    onchange="updateSelectedNationality()"
+                                    {% if tbl in selected_nationality %}checked{% endif %}>
+                                {{ tbl }}
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="company"><b>Select Company:</b></label>
+                <div class="dropdown">
+                    <button type="button">Select Company</button>
+                    <div class="dropdown-content">
+                        <input 
+                            type="text" 
+                            id="companySearch" 
+                            placeholder="Search Company..." 
+                            onkeyup="searchCompany()">
+                            
+                        <div id="selectedCompany" class="selected-items">
+                            <!-- Dynamically filled by JS -->
+                        </div>
+                            
+                        <div id="companyCheckboxes">
+                            {% for tbl in company %}
+                            <label class="company-option">
+                                <input 
+                                    type="checkbox" 
+                                    name="company" 
+                                    value="{{ tbl }}" 
+                                    onchange="updateSelectedCompany()"
+                                    {% if tbl in selected_company %}checked{% endif %}>
+                                {{ tbl }}
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="created_date"><b>Created Date:</b></label>
+                <div class="date-range">
+                    <div class="date-control">
+                        <label for="start_date">From:</label>
+                        <input type="date" 
+                            id="start_date" 
+                            name="start_date" 
+                            value="{{ start_date }}"
+                            max="{{ today_date|date:'Y-m-d' }}"
+                            min="1900-01-01">
+                    </div>
+
+                    <div class="date-control">
+                        <label for="end_date">To:</label>
+                        <input type="date" 
+                            id="end_date" 
+                            name="end_date" 
+                            value="{{ end_date }}"
+                            max="{{ today_date|date:'Y-m-d' }}"
+                            min="1900-01-01">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="agent_website"><b>Agent Has a Website</b></label>
+                <select class="agent_website" name="agent_website" id="agent_website">
+                    <option value="">Select</option>
+                    <option value="1" {% if agent_website == '1' %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if agent_website == '0' %}selected{% endif %}>No</option>
+                </select>
+            </div>
+            
+            <div class="download-options">
+                <div>
+                    <label for="download_format"><b>Download Format:</b></label>
+                    <select name="download_format" id="download_format">
+                        <option value="csv">CSV/Excel</option>
+                        <option value="pdf">PDF</option>
+                        <option value="json">JSON</option>
+                    </select>
+                </div>
+
+                <button type="submit" name="download" value="true" class="submit-btn">
+                    Download Data
+                </button>
+            </div>
+        </form>
+        
+        <a href="#" class="clear-btn" onclick="clearFilters()">Clear Filters</a>
+    </div>
+
+    <script>
+        // Nationality search functionality
+        function searchNationality() {
+            const searchInput = document.getElementById('nationalitySearch');
+            const filter = searchInput.value.toLowerCase();
+            const labels = document.getElementsByClassName('nationality-option');
+
+            for (let label of labels) {
+                const text = label.textContent || label.innerText;
+                if (text.toLowerCase().indexOf(filter) > -1) {
+                    label.style.display = "";
+                } else {
+                    label.style.display = "none";
+                }
+            }
+        }
+
+        // Update selected nationality tags
+        function updateSelectedNationality() {
+            const selectedContainer = document.getElementById('selectedNationality');
+            const checkboxes = document.querySelectorAll('input[name="nationality"]:checked');
+            
+            // Clear current selected nationalities
+            selectedContainer.innerHTML = '';
+
+            // Add selected nationalities to the container
+            checkboxes.forEach(function(checkbox) {
+                const selectedTag = document.createElement('span');
+                selectedTag.textContent = checkbox.value;
+                selectedTag.className = 'selected-tag';
+                selectedContainer.appendChild(selectedTag);
+            });
+            
+            // Update dropdown button text
+            const nationalityCount = checkboxes.length;
+            const dropdownBtn = selectedContainer.closest('.dropdown').querySelector('button');
+            
+            if (nationalityCount > 0) {
+                dropdownBtn.textContent = `${nationalityCount} Nationalities Selected`;
+            } else {
+                dropdownBtn.textContent = 'Select Nationality';
+            }
+        }
+
+        // Company search functionality
+        function searchCompany() {
+            const searchInput = document.getElementById('companySearch');
+            const filter = searchInput.value.toLowerCase();
+            const labels = document.getElementsByClassName('company-option');
+
+            for (let label of labels) {
+                const text = label.textContent || label.innerText;
+                if (text.toLowerCase().indexOf(filter) > -1) {
+                    label.style.display = "";
+                } else {
+                    label.style.display = "none";
+                }
+            }
+        }
+
+        // Update selected company tags
+        function updateSelectedCompany() {
+            const selectedContainer = document.getElementById('selectedCompany');
+            const checkboxes = document.querySelectorAll('input[name="company"]:checked');
+            
+            // Clear current selected companies
+            selectedContainer.innerHTML = '';
+
+            // Add selected companies to the container
+            checkboxes.forEach(function(checkbox) {
+                const selectedTag = document.createElement('span');
+                selectedTag.textContent = checkbox.value;
+                selectedTag.className = 'selected-tag';
+                selectedContainer.appendChild(selectedTag);
+            });
+            
+            // Update dropdown button text
+            const companyCount = checkboxes.length;
+            const dropdownBtn = selectedContainer.closest('.dropdown').querySelector('button');
+            
+            if (companyCount > 0) {
+                dropdownBtn.textContent = `${companyCount} Companies Selected`;
+            } else {
+                dropdownBtn.textContent = 'Select Company';
+            }
+        }
+
+        // Clear all filters
+        function clearFilters() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            document.getElementById('start_date').value = '';
+            document.getElementById('end_date').value = '';
+            document.getElementById('agent_website').value = '';
+            
+            updateSelectedNationality();
+            updateSelectedCompany();
+        }
+
+        // Update date range constraints
+        document.addEventListener("DOMContentLoaded", function() {
+            const startDateInput = document.getElementById("start_date");
+            const endDateInput = document.getElementById("end_date");
+
+            function updateEndDateMin() {
+                if (startDateInput.value) {
+                    endDateInput.min = startDateInput.value;
+                }
+            }
+
+            startDateInput.addEventListener("change", updateEndDateMin);
+
+            // Set min on load if start_date has a value
+            if (startDateInput.value) {
+                updateEndDateMin();
+            }
+            
+            // Initialize selected tags
+            updateSelectedNationality();
+            updateSelectedCompany();
+            
+            // Dropdown focus behavior enhancement
+            const dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(dropdown => {
+                const button = dropdown.querySelector('button');
+                const content = dropdown.querySelector('.dropdown-content');
+                
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!dropdown.contains(e.target)) {
+                        content.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

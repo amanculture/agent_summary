@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+    <style>
+        #chart {
+            width: 100%;
+            max-width: 1000px;
+            margin: auto;
+            overflow: visible !important; /* override any default scroll */
+        }
+    
+        .js-plotly-plot .plot-container {
+            overflow: visible !important;
+        }
+
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 charts per row */
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .chart-box {
+            padding: 10px;
+            background-color: #9dc5fd;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        .chart-title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+
+    </style>
+</head>
+<body>
+      
+
+    <form method="GET">
+        <label>Select Year:</label>
+        <select id="selected_year" name="selected_year" onchange="this.form.submit()">
+            {% for year in year_list %}
+                <option value="{{ year }}" {% if year == selected_year %} selected {% endif %}>
+                    {{ year }}
+                </option>
+            {% endfor %}
+        </select>
+    </form> 
+    
+    <div id="chart">
+        {{ chart_div_1|safe }}
+    </div>
+    
+
+
+    <h3 style="text-align: center; font-size: 24px;">Country Search in {{selected_year}}</h3>
+    <div class="chart-grid">
+        {% for month, chart in world_maps.items %}
+            <div class="chart-box">
+                <div class="chart-title">{{ month }}</div>
+                {{ chart|safe }}
+            </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

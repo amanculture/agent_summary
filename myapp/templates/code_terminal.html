@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Django Code Terminal</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #f0f0f0;
+            padding: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 350px;
+            font-family: monospace;
+            font-size: 14px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background: #fff;
+        }
+
+        button {
+            background-color: rgb(54, 215, 54);
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.1s ease-in-out;
+            box-shadow: 0 4px 0 #3aa03a;
+        }
+
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #3aa03a;
+        }
+
+        pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Django Python Terminal</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <textarea name="code" rows="20" cols="100" placeholder="Write Python code here...">{{ request.POST.code }}</textarea>
+    <br>
+    <button type="submit">Run Code</button>
+</form>
+
+
+    <h2>Output:</h2>
+    <pre>{{ output }}</pre>
+
+
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const textarea = document.querySelector('textarea');
+
+    textarea.addEventListener('keydown', function (e) {
+        const start = this.selectionStart;
+        const end = this.selectionEnd;
+        const value = this.value;
+
+        // Handle Tab key
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const selectedText = value.slice(start, end);
+            const lines = selectedText.split('\n');
+
+            let modifiedText;
+            let newStart = start;
+            let newEnd = end;
+
+            if (e.shiftKey) {
+                // Unindent
+                modifiedText = lines.map(line => {
+                    if (line.startsWith('    ')) return line.slice(4);
+                    if (line.startsWith('\t')) return line.slice(1);
+                    return line;
+                }).join('\n');
+
+                const diff = selectedText.length - modifiedText.length;
+                newStart = start;
+                newEnd = end - diff;
+
+            } else {
+                // Indent
+                modifiedText = lines.map(line => '    ' + line).join('\n');
+
+                const diff = modifiedText.length - selectedText.length;
+                newStart = start;
+                newEnd = end + diff;
+            }
+
+            // Replace selected text while preserving undo
+            document.execCommand('insertText', false, modifiedText);
+
+            // Manually set updated selection
+            setTimeout(() => {
+                this.selectionStart = newStart;
+                this.selectionEnd = newEnd;
+            }, 0);
+        }
+    });
+});
+</script>
+</body>
+</html>
