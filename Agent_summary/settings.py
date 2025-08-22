@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 from decouple import config
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -120,19 +121,26 @@ WSGI_APPLICATION = 'Agent_summary.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default':{
+#         'ENGINE':'mssql',                    # Must be "mssql"
+#         'NAME': config('DB_NAME'),                       # DB name "test"
+#         'HOST': config('DB_HOST'),  # <server>\<instance>
+#         'USER': config('DB_USER'),
+#         'PASSWORD': config('DB_PASSWORD'),
+#         'PORT': config('DB_PORT', default='1433'),            # Keep it blank
+#         'OPTIONS': {
+#             'driver': 'ODBC Driver 17 for SQL Server',
+#             'extra_params': '',
+#         },
+#     }
+# }
+
+
 DATABASES = {
-    'default':{
-        'ENGINE':'mssql',                    # Must be "mssql"
-        'NAME': config('DB_NAME'),                       # DB name "test"
-        'HOST': config('DB_HOST'),  # <server>\<instance>
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'PORT': config('DB_PORT', default='1433'),            # Keep it blank
-        'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server',
-            'extra_params': '',
-        },
-    }
+    'default': dj_database_url.config(
+        default=os.getenv("DATABASE_URL")
+    )
 }
 
 
